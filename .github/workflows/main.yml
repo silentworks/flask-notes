@@ -21,6 +21,6 @@ jobs:
             --local-only
             --detach
             --build-arg SUPABASE_URL=${{ secrets.SUPABASE_URL }}
-            --build-arg SUPABASE_KEY=${{ secrets.SUPABASE_KEY }}
+            --build-arg SUPABASE_KEY=${{ secrets.SUPABASE_KEY }}'
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
