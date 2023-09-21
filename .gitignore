@@ -1,0 +1,6 @@
+__pycache__
+.venv
+supabase/.branches
+supabase/.temp
+node_modules/
+.env

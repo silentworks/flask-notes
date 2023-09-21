@@ -1,0 +1,17 @@
+{% macro alert(class='') -%}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} {{ class }} shadow-lg rounded-none">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+{%- endmacro %}
+
+{% macro form_error(form_element) -%}
+    {% if form_element.errors %}
+        {% for error in form_element.errors %}
+            <span class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">{{ error }}</span>
+        {% endfor %}
+    {% endif %}
+{%- endmacro %}

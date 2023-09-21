@@ -1,0 +1,22 @@
+{% extends "auth/layout.html" %}
+{% import "_helpers.html" as h %}
+
+{% block title %}Sign up{% endblock %}
+
+{% block content %}
+  <div class="w-11/12 p-12 px-6 py-10 rounded-lg sm:w-8/12 md:w-6/12 lg:w-5/12 2xl:w-3/12 sm:px-10 sm:py-6">
+    {{ h.alert('mb-10') }}
+    <h2 class="font-semibold text-4xl mb-4">Create an account</h2>
+    <p class="font-medium mb-4">Let's get started</p>
+    <form action="{{ url_for('auth.signup') }}" method="post">
+      {% include 'auth/_form_partial.html' %}
+      
+      <div class="form-control mt-6">
+        <button class="btn btn-primary no-animation">Create account</button>
+      </div>
+    </form>
+    <div class="pt-4 text-center">
+      Already have an account? <a href="{{ url_for('auth.signin') }}" class="underline text-blue-500">Sign In</a>
+    </div>
+  </div>
+{% endblock %}

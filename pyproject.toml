@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "app"
+version = "0.1.0"
+description = ""
+authors = ["Andrew Smith <a.smith@silentworks.co.uk>"]
+readme = "README.md"
+packages = [{ include = "app" }]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+supabase = "^1.0.4"
+flask = "^2.3.3"
+flask-wtf = "^1.1.1"
+email-validator = "^2.0.0.post2"
+poetry-dotenv-plugin = "^0.2.0"
+gunicorn = "^21.2.0"
+
+[tool.flake8]
+ignore = ["F401", "E402"]
+exclude = [".venv"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

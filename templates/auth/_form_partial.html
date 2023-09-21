@@ -1,0 +1,14 @@
+{% import "_helpers.html" as h %}
+
+{{ form.csrf_token }}
+<div class="form-control">
+    <label for="email" class="label">{{ form.email.label }}</label>
+    {{ form.email(class="input input-bordered") }}
+</div>
+{{ h.form_error(form.email) }}
+
+<div class="form-control">
+    <label for="password" class="label">{{ form.password.label }}</label>
+    {{ form.password(class="input input-bordered") }}
+</div>
+{{ h.form_error(form.password) }}

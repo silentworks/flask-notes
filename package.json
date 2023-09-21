@@ -1,0 +1,17 @@
+{
+  "name": "python-reset-flow",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "tailwindcss -w -i ./tailwind.css -o static/app.css",
+    "build": "tailwindcss -m -i ./tailwind.css -o static/app.css",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "daisyui": "^3.7.3",
+    "tailwindcss": "^3.3.3"
+  },
+  "devDependencies": {
+    "supabase": "^1.93.0"
+  }
+}
