@@ -1,0 +1,26 @@
+name: Fly deploy
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy app
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Checkout app
+        uses: actions/checkout@v2
+
+      - name: Deploy app
+        uses: superfly/flyctl-actions@1.1
+        with:
+          args: 'deploy
+            --no-cache
+            --local-only
+            --detach
+            --build-arg SUPABASE_URL=${{ secrets.SUPABASE_URL }}
+            --build-arg SUPABASE_KEY=${{ secrets.SUPABASE_KEY }}
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
