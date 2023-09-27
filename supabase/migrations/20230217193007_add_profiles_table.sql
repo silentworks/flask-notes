@@ -103,7 +103,7 @@ to authenticated
 using (auth.uid() = profile_id);
 
 create function update_profile(display_name text, bio text, first_name text, last_name text, dob date, profile_location text)
-returns boolean
+returns table(profile_display_name text)
 language plpgsql
 as $$
 begin
@@ -118,5 +118,6 @@ begin
         profile_location = $6
     where profile_id = auth.uid();
     
-    return true;
+    return query
+        select p.display_name as d_name from profiles p where p.id = auth.uid();
 end; $$;
