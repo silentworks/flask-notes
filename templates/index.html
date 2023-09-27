@@ -1,6 +1,28 @@
 {% extends "layout.html" %}
+{% import "_helpers.html" as h %}
+
 {% block title %}Home{% endblock %}
 
 {% block content %}
-  <h1>Welcome {{ session.user.email }}</h1>
+  <div class="card w-4/12 bg-base-100 shadow-xl">
+    <div class="card-body">
+      <h2 class="card-title">Welcome {{ profile.display_name or session.user.email }}</h2>
+      {% if profile.display_name %}
+        <p>
+          Name: {{ profile.first_name }}
+          {{ profile.last_name }}
+        </p>
+        <p>Display Name: {{ profile.display_name }}</p>
+        <p>Dob: {{ profile.dob }}</p>
+        <p>Location: {{ profile.profile_location }}</p>
+        <h3 class="text-lg font-semibold mt-2">Bio</h3>
+        <p>{{ profile.bio }}</p>
+        <p class="text-right">
+          <a href="{{ h.generate_url(profile.slug) }}" class="btn btn-md btn-outline">
+            View Profile
+          </a>
+        </p>
+      {% endif %}
+    </div>
+  </div>
 {% endblock %}
