@@ -91,9 +91,8 @@ def edit(note_id):
     if note["featured_image"] is not None:
         r = supabase.storage.from_("featured_image").get_public_url(
             note["featured_image"],
-            options={"transform": {"width": 200}, "download": True},
+            options={"transform": {"width": 200}},
         )
-        # image = f"data:image/png;base64," + base64.b64encode(r).decode("utf-8")
         image = r
     else:
         path = note["featured_image"]
@@ -103,13 +102,11 @@ def edit(note_id):
         content = form.content.data
         is_public = form.is_public.data
         featured_image = form.featured_image.name
-        print(f"Featured: {featured_image}")
         if featured_image is not None:
             image = request.files[featured_image]
             image_stream = io.BytesIO()
             image.save(image_stream)
             path = f"{profile['id']}/{random_choice().lower()}_fi.png"
-            print(f"Path: {path}")
 
         try:
             if featured_image is not None:

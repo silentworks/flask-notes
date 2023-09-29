@@ -37,8 +37,8 @@ to authenticated
 using (auth.uid() = author_id);
 
 -- Set up storage for featured_images
-insert into storage.buckets (id, name)
-  values ('featured_image', 'featured_image');
+insert into storage.buckets (id, name, public)
+  values ('featured_image', 'featured_image', true);
 
 -- Set up access controls for storage.
 -- See https://supabase.com/docs/guides/storage#policy-examples for more details.
