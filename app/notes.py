@@ -1,6 +1,8 @@
 import base64
 import io
 from flask import Blueprint, flash, redirect, render_template, request, url_for
+from PIL import Image, ImageOps
+from urllib.request import urlopen
 from postgrest.exceptions import APIError
 from app.forms import NoteForm
 from app.supabase import (
@@ -89,11 +91,26 @@ def edit(note_id):
     form = NoteForm(data=note)
     image = None
     if note["featured_image"] is not None:
+        # A Supabase PRO plan is required to use image transforms
+        # r = supabase.storage.from_("featured_image").get_public_url(
+        #     note["featured_image"],
+        #     options={"transform": {"width": 200}},
+        # )
+
+        # Alternatively we can use Pillow to handle our image transform but
+        # the burden will be on our own server rather than Supabase's and we
+        # have to write a lot more code to accomplish the transform, you may
+        # also want to cache this as this action will be performed everytime
+        # you load an image
         r = supabase.storage.from_("featured_image").get_public_url(
-            note["featured_image"],
-            options={"transform": {"width": 200}},
+            note["featured_image"]
         )
-        image = r
+        url_to_stream = urlopen(r)
+        img = Image.open(url_to_stream)
+        img = ImageOps.contain(img, (200, 200))
+        image_stream = io.BytesIO()
+        img.save(image_stream, format="png")
+        image = f"data:image/png;base64, {base64.b64encode(image_stream.getvalue()).decode('utf-8')}"
     else:
         path = note["featured_image"]
 
