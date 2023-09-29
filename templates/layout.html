@@ -1,18 +1,27 @@
 {% extends "base_layout.html" %}
 
+{% set navigation_bar = [
+  ('notes.home', 'Notes'),
+  ('account.home', 'Account')
+] -%}
+
+{% set active_page = active_page|default('index') -%}
+
 {% block body %}
   <main data-theme="winter">
     <div class="flex flex-col h-screen">
       <div class="navbar border-b border-gray-300 px-4">
         <div class="flex-1">
           <h1 class="font-semibold">
-            <a href="/">Supabase Flask Demo</a>
+            <a href="{{ url_for('home') }}">Supabase Flask Demo</a>
           </h1>
         </div>
         <div class="flex-none space-x-10">
-          <a class="btn btn-outline no-animation" href="/account">Account</a>
-          <form action="/auth/signout" method="post" use:enhance>
-            <button class="btn btn-ghost no-animation">Sign out</button>
+          {% for id, caption in navigation_bar %}
+            <a class="btn btn-ghost no-animation {{ 'btn-active' if active_page == id else ''}}" href="{{ url_for(id) }}">{{ caption }}</a>
+          {% endfor %}
+          <form action="{{ url_for('auth.signout') }}" method="post" use:enhance>
+            <button class="btn btn-outline btn-error no-animation">Sign out</button>
           </form>
         </div>
       </div>

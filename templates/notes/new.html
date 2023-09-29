@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+{% import "_helpers.html" as h %}
+{% set active_page = "notes.home" %}
+
+{% block title %}New Note{% endblock %}
+
+{% block content %}
+<div class="w-11/12 p-12 px-6 py-10 rounded-lg sm:w-8/12 md:w-6/12 lg:w-full 2xl:w-3/12 sm:px-10 sm:py-6">
+    {{ h.alert('mb-10') }}
+    <div class="flex">
+        <div class="flex-auto">
+            <h2 class="font-semibold text-4xl mb-4">New Note</h2>
+            <p class="font-medium mb-10">
+                Hi {{ profile.display_name or session.user.email }}, you can add, edit and delete notes from here
+            </p>
+        </div>
+    </div>
+
+    <form action="{{ url_for('notes.new') }}" method="post" enctype="multipart/form-data">
+		{{ form.csrf_token }}
+
+		<div class="mb-4 md:grid md:grid-cols-6 gap-4">
+			<div class="col-span-6 sm:col-span-3">
+				<div class="form-control">
+					{{ form.title.label(class="label") }}
+					{{ form.title(class="input input-bordered") }}
+				</div>
+				{{ h.form_error(form.title) }}
+			</div>
+			<div class="col-span-6 sm:col-span-3">
+				<div class="form-control">
+					{{ form.featured_image.label(class="label") }}
+					{{ form.featured_image(class="file-input w-full max-w-xs") }}
+				</div>
+				{{ h.form_error(form.featured_image) }}
+			</div>
+		</div>
+		<div class="form-control">
+			{{ form.content.label(class="label") }}
+            {{ form.content(class="textarea textarea-bordered textarea-lg w-full") }}
+		</div>
+		{{ h.form_error(form.content) }}
+
+        <div class="form-control flex-row justify-start">
+            <label class="label cursor-pointer">
+                <span class="label-text mr-6">{{ form.is_public.label }}</span>
+                {{ form.is_public(class="checkbox checkbox-lg") }}
+            </label>
+        </div>
+		{{ h.form_error(form.is_public) }}
+
+		<div class="form-control mt-6">
+			<button class="btn btn-primary no-animation">Create</button>
+		</div>
+	</form>
+</div>
+{% endblock %}

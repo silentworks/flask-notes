@@ -1,9 +1,11 @@
+import os
 from flask import Blueprint, render_template, redirect, request, session, url_for, flash
-from app.forms import AuthForm, ForgotPasswordForm
-from app.utils import supabase
+from app.forms import AuthForm, ForgotPasswordForm, VerifyTokenForm
+from app.supabase import supabase
 from gotrue.errors import AuthApiError
 
 auth = Blueprint("auth", __name__, url_prefix="/auth")
+supabase_key = os.environ.get("SUPABASE_KEY", "")
 
 
 @auth.route("/signin", methods=["GET", "POST"])
@@ -47,6 +49,9 @@ def signup():
 @auth.route("/signout", methods=["POST"])
 def signout():
     supabase.auth.sign_out()
+    # TODO: remove workaround once
+    # https://github.com/supabase-community/supabase-py/pull/560 is merged and released
+    # supabase.postgrest.auth(token=supabase_key)
     return redirect(url_for("auth.signin"))
 
 
@@ -78,3 +83,34 @@ def confirm():
         supabase.auth.verify_otp(params={"token_hash": token_hash, "type": auth_type})
 
     return redirect(url_for(next))
+
+
+@auth.route("/verify-token", methods=["GET", "POST"])
+def verify_token():
+    auth_type = request.args.get("type", "email")
+    next = request.args.get("next", "home")
+    form = VerifyTokenForm()
+    if form.validate_on_submit():
+        email = form.email.data
+        token = form.token.data
+
+        if auth_type:
+            if auth_type == "recovery":
+                session["password_update_required"] = True
+
+        try:
+            supabase.auth.verify_otp(
+                params={"email": email, "token": token, "type": auth_type}
+            )
+            return redirect(url_for(next))
+        except AuthApiError as exception:
+            err = exception.to_dict()
+            message = err.get("message")
+            if err.get("message") == "User not found":
+                message = "Email provided is not recognised"
+
+            flash(message, "error")
+
+    return render_template(
+        "auth/verify-token.html", form=form, next=next, auth_type=auth_type
+    )

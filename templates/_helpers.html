@@ -15,3 +15,7 @@
         {% endfor %}
     {% endif %}
 {%- endmacro %}
+
+{% macro generate_url(slug) -%}
+    {{ request.host_url }}/u/{{ slug }}
+{%- endmacro %}

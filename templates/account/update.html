@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+{% import "_helpers.html" as h %}
+{% set active_page = "account.home" %}
+
+{% block title %}Update Email{% endblock %}
+
+{% block content %}
+<div
+	class="w-11/12 p-12 px-6 py-10 rounded-lg sm:w-8/12 md:w-6/12 lg:w-5/12 2xl:w-3/12 sm:px-10 sm:py-6"
+>
+	{{ h.alert('mb-10') }}
+	<h2 class="font-semibold text-4xl mb-4">{{ 'Update Profile' if profile.display_name else 'Please complete your profile' }}</h2>
+	<p class="font-medium mb-4">
+		Hi {{ profile.display_name or session.user.email }}, Enter your new email below and confirm it
+	</p>
+	<form action="{{ url_for('account.update') }}" method="post">
+		{{ form.csrf_token }}
+
+		<div class="mb-4 md:grid md:grid-cols-6 gap-4">
+			<div class="col-span-6 sm:col-span-3">
+				<div class="form-control">
+					{{ form.first_name.label(class="label") }}
+					{{ form.first_name(class="input input-bordered") }}
+				</div>
+				{{ h.form_error(form.first_name) }}
+			</div>
+			<div class="col-span-6 sm:col-span-3">
+				<div class="form-control">
+					{{ form.last_name.label(class="label") }}
+					{{ form.last_name(class="input input-bordered") }}
+				</div>
+				{{ h.form_error(form.last_name) }}
+			</div>
+		</div>
+		<div class="form-control">
+			{{ form.display_name.label(class="label") }}
+            {{ form.display_name(class="input input-bordered") }}
+		</div>
+		{{ h.form_error(form.display_name) }}
+
+		<div class="form-control">
+			{{ form.bio.label(class="label") }}
+            {{ form.bio(class="textarea textarea-bordered textarea-lg w-full") }}
+		</div>
+		{{ h.form_error(form.bio) }}
+		
+		<div class="form-control">
+			{{ form.dob.label(class="label") }}
+            {{ form.dob(class="input input-bordered") }}
+		</div>
+		{{ h.form_error(form.dob) }}
+
+		<div class="form-control">
+			{{ form.profile_location.label(class="label") }}
+            {{ form.profile_location(class="input input-bordered") }}
+		</div>
+		{{ h.form_error(form.profile_location) }}
+
+		<div class="form-control mt-6">
+			<button class="btn btn-primary no-animation">Update</button>
+		</div>
+	</form>
+</div>
+{% endblock %}

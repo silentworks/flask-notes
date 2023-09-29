@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% import "_helpers.html" as h %}
+{% set active_page = "notes.home" %}
+
+{% block title %}Notes{% endblock %}
+
+{% block content %}
+<div class="w-11/12 p-12 px-6 py-10 rounded-lg sm:w-8/12 md:w-6/12 lg:w-full 2xl:w-3/12 sm:px-10 sm:py-6">
+    {{ h.alert('mb-10') }}
+    <div class="flex">
+        <div class="flex-auto">
+            <h2 class="font-semibold text-4xl mb-4">Notes</h2>
+            <p class="font-medium mb-10">
+                Hi {{ profile.display_name or session.user.email }}, you can add, edit and delete notes from here
+            </p>
+        </div>
+        <div class="flex-none">
+            <a class="btn btn-primary" href="{{ url_for('notes.new') }}">New Note</a>
+        </div>
+    </div>
+
+    <ul class="bg-white shadow overflow-hidden sm:rounded-md mx-auto">
+        {% for note in notes %}
+        <li>
+            <div class="px-4 py-5 sm:px-6">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">{{ note.title }}</h3>
+                    <p class="mt-1 max-w-2xl text-sm text-gray-500">{{ note.content | truncate(60) }}</p>
+                </div>
+                <div class="mt-4 flex items-center justify-between">
+                    <p class="text-sm font-medium text-gray-500">Is Public: <span class="{{ 'text-green-600' if note.is_public else 'text-red-600' }}">{{ "Yes" if note.is_public else "No" }}</span></p>
+                    <a href="{{ url_for('notes.edit', note_id=note.id) }}" class="font-medium text-indigo-600 hover:text-indigo-500">Edit</a>
+                </div>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
