@@ -12,7 +12,7 @@ from app.supabase import (
     get_profile_by_user,
 )
 from app.decorators import login_required, password_update_required, profile_required
-from app.utils import random_choice
+from app.utils import random_choice, resize_image
 
 notes = Blueprint("notes", __name__, url_prefix="/notes")
 
@@ -106,18 +106,12 @@ def edit(note_id):
         # the burden will be on our own server rather than Supabase's and we
         # have to write a lot more code to accomplish the transform, you may
         # also want to cache this as this action will be performed everytime
-        # you load an image
+        # you load an image. Pillow transform code can be found in the
+        # resize_image function below
         r = supabase.storage.from_("featured_image").get_public_url(
             note["featured_image"]
         )
-        response = requests.get(r, stream=True)
-        content_size = response.headers.get("Content-length")
-        if content_size != "0":
-            img = Image.open(response.raw)
-            img = ImageOps.contain(img, (200, 200))
-            image_stream = io.BytesIO()
-            img.save(image_stream, format="png")
-            preview_image = f"data:image/png;base64, {base64.b64encode(image_stream.getvalue()).decode('utf-8')}"
+        preview_image = resize_image(r, 200, 200)
 
     if form.validate_on_submit():
         title = form.title.data
