@@ -65,7 +65,7 @@ def get_profile_by_slug(slug: str):
     return get_profile(slug)
 
 
-def get_notes(user_or_slug: Union[User, str]):
+def get_notes(user_or_user_id: Union[User, str], public_only: bool = False):
     # get profile and profile_info
     notes = {}
     try:
@@ -73,10 +73,13 @@ def get_notes(user_or_slug: Union[User, str]):
             supabase.table("notes").select("*").order(column="created_at", desc=True)
         )
 
-        if hasattr(user_or_slug, "id"):
-            query = query.match({"author_id": user_or_slug.id})
+        if hasattr(user_or_user_id, "id"):
+            query = query.match({"author_id": user_or_user_id.id})
         else:
-            query = query.match({"slug": user_or_slug})
+            query = query.match({"author_id": user_or_user_id})
+
+        if public_only:
+            query = query.match({"is_public": public_only})
 
         r = query.execute()
         notes = r.data
@@ -92,13 +95,17 @@ def get_notes_by_user():
     return get_notes(user)
 
 
-def get_note(user: User, id: str):
+def get_all_notes_by_user_id(user_id: str):
+    return get_notes(user_id, True)
+
+
+def get_note(user_or_slug: Union[User, str], id: str):
     note = {}
     try:
         r = (
             supabase.table("notes")
             .select("*")
-            .match({"author_id": user.id, "id": id})
+            .match({"author_id": user_or_slug.id, "id": id})
             .single()
             .execute()
         )
@@ -114,3 +121,15 @@ def get_note_by_user_and_id(id: str):
     sess = supabase.auth.get_session()
     user = sess.user
     return get_note(user, id)
+
+
+def get_note_by_slug(slug: str):
+    note = {}
+    try:
+        r = supabase.table("notes").select("*").match({"slug": slug}).single().execute()
+
+        note = r.data
+    except Exception as err:
+        None
+
+    return note
