@@ -36,12 +36,20 @@ def signup():
         email = form.email.data
         password = form.password.data
 
-        user = supabase.auth.sign_up(credentials={"email": email, "password": password})
+        try:
+            user = supabase.auth.sign_up(
+                credentials={"email": email, "password": password}
+            )
 
-        if user:
-            return redirect(url_for("home"))
-        else:
-            flash("User registration failed!", "error")
+            if user:
+                flash(
+                    "Please check your email for a magic link to log into the website.",
+                    "info",
+                )
+            else:
+                flash("User registration failed!", "error")
+        except AuthApiError as message:
+            flash(message, "error")
 
     return render_template("auth/signup.html", form=form)
 
@@ -49,9 +57,6 @@ def signup():
 @auth.route("/signout", methods=["POST"])
 def signout():
     supabase.auth.sign_out()
-    # TODO: remove workaround once
-    # https://github.com/supabase-community/supabase-py/pull/560 is merged and released
-    # supabase.postgrest.auth(token=supabase_key)
     return redirect(url_for("auth.signin"))
 
 

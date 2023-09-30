@@ -1,4 +1,4 @@
-from flask import Flask, abort, render_template
+from flask import Flask, g, render_template
 from app.supabase import (
     session_context_processor,
     get_profile_by_slug,
@@ -17,6 +17,11 @@ app.context_processor(session_context_processor)
 app.register_blueprint(auth)
 app.register_blueprint(account)
 app.register_blueprint(notes)
+
+
+@app.teardown_appcontext
+def close_supabase(e=None):
+    g.pop("supabase", None)
 
 
 @app.route("/")

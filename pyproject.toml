@@ -15,6 +15,7 @@ email-validator = "^2.0.0.post2"
 poetry-dotenv-plugin = "^0.2.0"
 gunicorn = "^21.2.0"
 pillow = "^10.0.1"
+requests = "^2.31.0"
 
 [tool.flake8]
 ignore = ["F401", "E402"]
