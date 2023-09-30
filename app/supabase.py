@@ -10,6 +10,7 @@ from typing import Union
 
 url = os.environ.get("SUPABASE_URL", "")
 key = os.environ.get("SUPABASE_KEY", "")
+app_name = os.environ.get("APP_NAME", "Supabase Flask Demo")
 
 
 def get_supabase() -> Client:
@@ -26,9 +27,9 @@ supabase: Client = LocalProxy(get_supabase)
 def session_context_processor():
     try:
         sess = supabase.auth.get_session()
-        return dict(session=sess)
+        return dict(session=sess, app_name=app_name)
     except (AuthApiError, AuthRetryableError):
-        return dict(session=None)
+        return dict(session=None, app_name=app_name)
 
 
 def get_profile(user_or_slug: Union[User, str]):
