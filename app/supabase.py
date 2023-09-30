@@ -1,4 +1,6 @@
 import os
+from flask import g
+from werkzeug.local import LocalProxy
 from supabase.client import create_client, Client
 from supabase.lib.client_options import ClientOptions
 from app.flask_storage import FlaskSessionStorage
@@ -9,13 +11,16 @@ from typing import Union
 url = os.environ.get("SUPABASE_URL", "")
 key = os.environ.get("SUPABASE_KEY", "")
 
-supabase: Client = create_client(
-    url,
-    key,
-    options=ClientOptions(
-        storage=FlaskSessionStorage(),
-    ),
-)
+
+def get_supabase() -> Client:
+    if "supabase" not in g:
+        g.supabase: Client = create_client(
+            url, key, options=ClientOptions(storage=FlaskSessionStorage())
+        )
+    return g.supabase
+
+
+supabase: Client = LocalProxy(get_supabase)
 
 
 def session_context_processor():
@@ -64,7 +69,9 @@ def get_notes(user_or_slug: Union[User, str]):
     # get profile and profile_info
     notes = {}
     try:
-        query = supabase.table("notes").select("*")
+        query = (
+            supabase.table("notes").select("*").order(column="created_at", desc=True)
+        )
 
         if hasattr(user_or_slug, "id"):
             query = query.match({"author_id": user_or_slug.id})

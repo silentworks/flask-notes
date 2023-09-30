@@ -25,13 +25,15 @@
 		{{ h.form_error(form.title) }}
 
 		<div class="my-4 flex gap-4">
+			{% if preview_image %}
 			<div class="flex-none">
-				<img src="{{ image | safe }}" width="200" />
+				<img src="{{ preview_image | safe }}" width="200" />
 			</div>
+			{% endif %}
 			<div class="flex-auto">
 				<div class="form-control">
 					{{ form.featured_image.label(class="label") }}
-					{{ form.featured_image(class="file-input w-full max-w-xs") }}
+					{{ form.featured_image(class="file-input w-full max-w-xs no-animation") }}
 				</div>
 				{{ h.form_error(form.featured_image) }}
 			</div>

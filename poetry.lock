@@ -547,19 +547,19 @@ dotenv = ["python-dotenv"]
 
 [[package]]
 name = "flask-wtf"
-version = "1.1.1"
+version = "1.1.2"
 description = "Form rendering, validation, and CSRF protection for Flask with WTForms."
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "Flask-WTF-1.1.1.tar.gz", hash = "sha256:41c4244e9ae626d63bed42ae4785b90667b885b1535d5a4095e1f63060d12aa9"},
-    {file = "Flask_WTF-1.1.1-py3-none-any.whl", hash = "sha256:7887d6f1ebb3e17bf648647422f0944c9a469d0fcf63e3b66fb9a83037e38b2c"},
+    {file = "flask_wtf-1.1.2-py3-none-any.whl", hash = "sha256:134f45f3155ebdbb2b44fe8e5b498a0956d34a16b10a53fadcb7a865c0b3cea2"},
+    {file = "flask_wtf-1.1.2.tar.gz", hash = "sha256:b51cfa7ad14e03de432a6268e8341354939d0beebf30fce66f8617a93e55e2a0"},
 ]
 
 [package.dependencies]
-Flask = "*"
+flask = "*"
 itsdangerous = "*"
-WTForms = "*"
+wtforms = "*"
 
 [package.extras]
 email = ["email-validator"]
@@ -1959,4 +1959,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "095c9769da97c23fc35d9e061a97ed9f07547104e900cd12c29375f1453a3945"
+content-hash = "8f168bbd543e7c9eda2c2410c1247fc9032fc568a90eb827e3a84dea1a9ca273"

@@ -12,9 +12,6 @@ def login_required(f):
         sess: Union[Session, None] = None
         try:
             sess = supabase.auth.get_session()
-            # TODO: remove workaround once
-            # https://github.com/supabase-community/supabase-py/pull/560 is merged and released
-            # supabase.postgrest.auth(token=sess.access_token)
         except AuthApiError as exception:
             err = exception.to_dict()
             if err.get("message") == "Invalid Refresh Token: Already Used":
