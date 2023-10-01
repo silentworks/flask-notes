@@ -1,11 +1,42 @@
 {% extends "layout.html" %}
 {% import "_helpers.html" as h %}
 
-{% block title %}Profile{% endblock %}
+{% block title %}{{ profile.display_name }} Notes{% endblock %}
 
 {% block body %}
-  <div class="min-w-screen min-h-screen flex items-center justify-center px-5 py-5">
-    <div class="rounded-lg shadow-xl bg-gray-900 text-white">
+<main data-theme="emerald" class="container mx-auto grid grid-cols-3 gap-x-6 max-w-5xl mt-8">
+	<div class="col-span-2">
+    {% block content %}
+      <h2 class="font-semibold text-2xl mb-4 pb-4 border-b">{{ profile.display_name }} Notes</h2>
+      <ul class="bg-white overflow-hidden sm:rounded-md mx-auto">
+        {% for note in notes %}
+        <li class="border-b">
+          <div class="pr-4 py-5 sm:pr-6">
+            <div class="flex flex-col">
+              <p class="flex items-center text-sm">
+                <span class="flex flex-col">
+                  <span class="text-gray-400 text-xs" title="{{ note.created_at|humanize('%b %d %Y, %I:%M%p') }}">{{ note.created_at|humanize }}</span>
+                </span>
+              </p>
+              <h3 class="text-lg leading-6 font-medium text-gray-900">
+                <a href="{{ url_for('user_note', slug=profile.slug, note_slug=note.slug) }}" class="block h-6 font-medium hover:text-indigo-500 group">
+                  <span>{{ note.title }}</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 hidden group-hover:inline ml-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+                  </svg>                      
+                </a>
+              </h3>
+              <p class="mt-2 max-w-2xl text-sm text-gray-500">{{ note.content | truncate(190) }}</p>
+            </div>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+    {% endblock %}
+  </div>
+
+  <div class="flex items-start justify-center py-5">
+    <div class="rounded-lg shadow-xl bg-gray-900 text-white w-full">
       <div class="border-b border-gray-800 px-8 py-3">
         <div class="inline-block w-3 h-3 mr-2 rounded-full bg-red-500"></div>
         <div class="inline-block w-3 h-3 mr-2 rounded-full bg-yellow-300"></div>
@@ -35,16 +66,6 @@
               >,
             </p>
           {% endif %}
-  
-          <p>
-            &nbsp;&nbsp;&nbsp;&nbsp;profile: <span class="text-yellow-300"
-              >'<a
-                href="{{ h.generate_url(profile.slug) }}"
-                class="text-yellow-300 hover:underline focus:border-none"
-                >{{ h.generate_url(profile.slug) }}</a
-              >'</span
-            >,
-          </p>
           <p>
             &nbsp;&nbsp;&nbsp;&nbsp;bio: <span class="text-yellow-300">'{{ profile.bio }}'</span>,
           </p>
@@ -58,4 +79,5 @@
       </div>
     </div>
   </div>
+</main>
 {% endblock %}

@@ -3,7 +3,7 @@ create extension if not exists moddatetime schema extensions;
 -- create public profile table that anyone can view
 create table public.notes (
     id uuid primary key default gen_random_uuid(),
-    author_id uuid references auth.users on delete cascade,
+    author_id uuid references public.profiles on delete cascade,
     title text,
     slug text generated always as (slugify_with_shortkey(title)) stored,
     content text,

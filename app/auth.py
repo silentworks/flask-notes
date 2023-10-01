@@ -22,7 +22,7 @@ def signin():
             )
 
             if user:
-                return redirect(url_for(next or "home"))
+                return redirect(url_for(next or "dashboard"))
         except AuthApiError as message:
             flash(message, "error")
 
@@ -36,12 +36,20 @@ def signup():
         email = form.email.data
         password = form.password.data
 
-        user = supabase.auth.sign_up(credentials={"email": email, "password": password})
+        try:
+            user = supabase.auth.sign_up(
+                credentials={"email": email, "password": password}
+            )
 
-        if user:
-            return redirect(url_for("home"))
-        else:
-            flash("User registration failed!", "error")
+            if user:
+                flash(
+                    "Please check your email for a magic link to log into the website.",
+                    "info",
+                )
+            else:
+                flash("User registration failed!", "error")
+        except AuthApiError as message:
+            flash(message, "error")
 
     return render_template("auth/signup.html", form=form)
 
@@ -49,9 +57,6 @@ def signup():
 @auth.route("/signout", methods=["POST"])
 def signout():
     supabase.auth.sign_out()
-    # TODO: remove workaround once
-    # https://github.com/supabase-community/supabase-py/pull/560 is merged and released
-    # supabase.postgrest.auth(token=supabase_key)
     return redirect(url_for("auth.signin"))
 
 
@@ -74,7 +79,7 @@ def forgot_password():
 def confirm():
     token_hash = request.args.get("token_hash")
     auth_type = request.args.get("type")
-    next = request.args.get("next", "home")
+    next = request.args.get("next", "dashboard")
 
     if token_hash and auth_type:
         if auth_type == "recovery":
@@ -88,7 +93,7 @@ def confirm():
 @auth.route("/verify-token", methods=["GET", "POST"])
 def verify_token():
     auth_type = request.args.get("type", "email")
-    next = request.args.get("next", "home")
+    next = request.args.get("next", "dashboard")
     form = VerifyTokenForm()
     if form.validate_on_submit():
         email = form.email.data
