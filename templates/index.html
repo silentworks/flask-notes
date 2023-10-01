@@ -1,28 +1,57 @@
 {% extends "layout.html" %}
 {% import "_helpers.html" as h %}
 
-{% block title %}Home{% endblock %}
+{% block title %}{{ app_name }}{% endblock %}
 
-{% block content %}
-  <div class="card w-4/12 bg-base-100 shadow-xl">
-    <div class="card-body">
-      <h2 class="card-title">Welcome {{ profile.display_name or session.user.email }}</h2>
-      {% if profile.display_name %}
-        <p>
-          Name: {{ profile.first_name }}
-          {{ profile.last_name }}
-        </p>
-        <p>Display Name: {{ profile.display_name }}</p>
-        <p>Dob: {{ profile.dob }}</p>
-        <p>Location: {{ profile.profile_location }}</p>
-        <h3 class="text-lg font-semibold mt-2">Bio</h3>
-        <p>{{ profile.bio }}</p>
-        <p class="text-right">
-          <a href="{{ h.generate_url(profile.slug) }}" class="btn btn-md btn-outline">
-            View Profile
-          </a>
-        </p>
-      {% endif %}
+{% block body %}
+<main data-theme="emerald" class="container mx-auto grid grid-cols-3 gap-x-6 max-w-5xl mt-8">
+	<div class="col-span-2">
+    <h2 class="font-semibold text-2xl mb-4 pb-4 border-b">All Notes</h2>
+    <ul class="bg-white overflow-hidden sm:rounded-md mx-auto">
+      {% for note in notes %}
+      <li class="border-b">
+        <div class="pr-4 py-5 sm:pr-6">
+          <div class="flex flex-col">
+            <p class="flex items-center text-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span class="flex flex-col">
+                <a href="{{ url_for('u', slug=note.profiles.slug) }}" class="text-gray-400 hover:text-gray-600">{{ note.profiles.display_name }}</a>
+                <span class="text-gray-400 text-xs" title="{{ note.created_at|humanize('%b %d %Y, %I:%M%p') }}">{{ note.created_at|humanize }}</span>
+              </span>                                  
+            </p>
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+              <a href="{{ url_for('user_note', slug=note.profiles.slug, note_slug=note.slug) }}" class="font-medium hover:text-indigo-500">
+                {{ note.title }}
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 inline">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+                </svg>                      
+              </a>
+            </h3>
+            <p class="mt-2 max-w-2xl text-sm text-gray-500">{{ note.content | truncate(100) }}</p>
+          </div>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="flex items-start justify-center py-5">
+    <div class="rounded-lg shadow-xl bg-gray-900 text-white">
+      <div class="border-b border-gray-800 px-8 py-3">
+        <div class="inline-block w-3 h-3 mr-2 rounded-full bg-red-500"></div>
+        <div class="inline-block w-3 h-3 mr-2 rounded-full bg-yellow-300"></div>
+        <div class="inline-block w-3 h-3 mr-2 rounded-full bg-green-400"></div>
+      </div>
+      <div class="px-8 py-6">
+        <h1 class="text-2xl mb-10">{{ app_name }}</h1>
+        <ul class="space-y-2">
+          <li><a href="{{ url_for('auth.signup') }}" class="text-gray-100 hover:text-gray-300 block hover:bg-gray-700 rounded-md p-2">Sign up</a></li>
+          <li><a href="{{ url_for('auth.signin') }}" class="text-gray-100 hover:text-gray-300 block hover:bg-gray-700 rounded-md p-2">Sign in</a></li>
+        </ul>
+      </div>
     </div>
   </div>
+</main>
 {% endblock %}

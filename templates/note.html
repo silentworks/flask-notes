@@ -6,7 +6,14 @@
 {% block content %}
   <div>
     <a href="{{ url_for('u', slug=profile.slug) }}" class="underline">{{profile.display_name}} Notes</a>
-    <h2 class="font-semibold text-2xl mb-6 pb-4 border-b">{{note.title}}</h2>
+    <header class="mt-4">
+      <p class="flex items-center text-sm">
+        <span class="flex flex-col">
+          <span class="text-gray-400 text-xs" title="{{ note.created_at|humanize('%b %d %Y, %I:%M%p') }}">{{ note.created_at|humanize }}</span>
+        </span>                                  
+      </p>
+      <h2 class="font-semibold text-2xl mb-6 pb-4 border-b">{{note.title}}</h2>
+    </header>
   </div>
   {% if featured_image %}
     <div class="mb-8">
