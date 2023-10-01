@@ -21,15 +21,15 @@
                 <span class="text-gray-400 text-xs" title="{{ note.created_at|humanize('%b %d %Y, %I:%M%p') }}">{{ note.created_at|humanize }}</span>
               </span>                                  
             </p>
-            <h3 class="text-lg leading-6 font-medium text-gray-900">
-              <a href="{{ url_for('user_note', slug=note.profiles.slug, note_slug=note.slug) }}" class="font-medium hover:text-indigo-500">
-                {{ note.title }}
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 inline">
+            <h3 class="text-lg leading-6 font-medium text-gray-900 mt-2">
+              <a href="{{ url_for('user_note', slug=note.profiles.slug, note_slug=note.slug) }}" class="block h-6 font-medium hover:text-indigo-500 group">
+                <span>{{ note.title }}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 hidden group-hover:inline ml-2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
                 </svg>                      
               </a>
             </h3>
-            <p class="mt-2 max-w-2xl text-sm text-gray-500">{{ note.content | truncate(100) }}</p>
+            <p class="mt-2 max-w-2xl text-sm text-gray-500">{{ note.content | truncate(190) }}</p>
           </div>
         </div>
       </li>
