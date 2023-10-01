@@ -37,7 +37,7 @@
     </ul>
   </div>
 
-  <div class="flex items-start justify-center py-5">
+  <div class="flex items-start justify-center py-5 w-full">
     <div class="rounded-lg shadow-xl bg-gray-900 text-white">
       <div class="border-b border-gray-800 px-8 py-3">
         <div class="inline-block w-3 h-3 mr-2 rounded-full bg-red-500"></div>
@@ -47,9 +47,10 @@
       <div class="px-8 py-6">
         <h1 class="text-2xl mb-10">{{ app_name }}</h1>
         <ul class="space-y-2">
-          <li><a href="{{ url_for('auth.signup') }}" class="text-gray-100 hover:text-gray-300 block hover:bg-gray-700 rounded-md p-2">Sign up</a></li>
-          <li><a href="{{ url_for('auth.signin') }}" class="text-gray-100 hover:text-gray-300 block hover:bg-gray-700 rounded-md p-2">Sign in</a></li>
+          <li><a href="{{ url_for('auth.signup') }}" class="text-gray-100 hover:text-gray-300 block hover:bg-gray-700 rounded-md p-2 text-sm">Sign up</a></li>
+          <li><a href="{{ url_for('auth.signin') }}" class="text-gray-100 hover:text-gray-300 block hover:bg-gray-700 rounded-md p-2 text-sm">Sign in</a></li>
         </ul>
+        <p class="mt-10 text-center"><a href="https://github.com/silentworks/flask-notes" class="text-sm text-gray-400">Project source</a></p>
       </div>
     </div>
   </div>
