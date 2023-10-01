@@ -10,7 +10,7 @@ from typing import Union
 
 url = os.environ.get("SUPABASE_URL", "")
 key = os.environ.get("SUPABASE_KEY", "")
-app_name = os.environ.get("APP_NAME", "Supabase Flask Demo")
+app_name = os.environ.get("APP_NAME", "Flask Notes")
 
 
 def get_supabase() -> Client:
