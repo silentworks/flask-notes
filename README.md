@@ -1,6 +1,6 @@
 # Flask Notes
 
-This is a Flask/Supabase project showing how to create a user profile along with how to store sensitive data that only the user of that data should be able to view using a one-to-one relationship and row level security (RLS). This project also demonstrates how to use a Postgres function to update two tables (which is done in a transaction so that if one fails there should be a rollback) using a `.rpc` function call. We also demonstrate how to use a generated column for the slug inside the database by making use of a Postgres function we create.
+This is a Flask/Supabase project showing how to create a user profile along with how to store sensitive data that only the user of that data should be able to view using a one-to-one relationship and row level security (RLS). This project also demonstrates how to use a Postgres function to update two tables (which is done in a transaction so that if one fails there should be a rollback) using a `.rpc` function call. We also demonstrate how to use a generated column for the slug inside the database by making use of a Postgres function we create. Storage is used to store the featured image for the notes in the app.
 
 This project makes use of:
 
@@ -20,7 +20,7 @@ You can get started with this locally by using the Supabase CLI. Make sure you h
 Create a copy of this project using the commands below:
 
 ```bash
-npx degit silentworks/supabase-flask-demo project-name
+npx degit silentworks/flask-notes project-name
 cd project-name
 npm install # or pnpm install or yarn install
 poetry install
