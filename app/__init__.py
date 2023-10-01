@@ -1,5 +1,5 @@
 from flask import Flask, g, render_template
-from PIL import Image, ImageOps
+from flask_misaka import Misaka
 from app.supabase import (
     supabase,
     session_context_processor,
@@ -16,6 +16,8 @@ from app.notes import notes
 from app.utils import humanize_ts, resize_image
 
 app = Flask(__name__, template_folder="../templates", static_folder="../static")
+
+Misaka(app)
 
 # Set the secret key to some random bytes. Keep this really secret!
 app.secret_key = b"c8af64a6a0672678800db3c5a3a8d179f386e083f559518f2528202a4b7de8f8"

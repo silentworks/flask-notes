@@ -20,5 +20,5 @@
       <img src="{{ featured_image | safe }}" />
     </div>
   {% endif %}
-  <p>{{note.content}}</p>
+  <article class="prose">{{note.content | markdown}}</article>
 {% endblock %}
