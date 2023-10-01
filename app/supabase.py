@@ -67,7 +67,6 @@ def get_profile_by_slug(slug: str):
 
 
 def get_notes(user_or_user_id: Union[User, str], public_only: bool = False):
-    # get profile and profile_info
     notes = {}
     try:
         query = (
@@ -98,6 +97,24 @@ def get_notes_by_user():
 
 def get_all_notes_by_user_id(user_id: str):
     return get_notes(user_id, True)
+
+
+def get_all_notes_with_profile():
+    notes = {}
+    try:
+        r = (
+            supabase.table("notes")
+            .select("*, profiles(display_name, slug)")
+            .match({"is_public": True})
+            .order(column="created_at", desc=True)
+            .execute()
+        )
+
+        notes = r.data
+    except Exception as err:
+        None
+
+    return notes
 
 
 def get_note(user_or_slug: Union[User, str], id: str):

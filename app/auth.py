@@ -22,7 +22,7 @@ def signin():
             )
 
             if user:
-                return redirect(url_for(next or "home"))
+                return redirect(url_for(next or "dashboard"))
         except AuthApiError as message:
             flash(message, "error")
 
@@ -79,7 +79,7 @@ def forgot_password():
 def confirm():
     token_hash = request.args.get("token_hash")
     auth_type = request.args.get("type")
-    next = request.args.get("next", "home")
+    next = request.args.get("next", "dashboard")
 
     if token_hash and auth_type:
         if auth_type == "recovery":
@@ -93,7 +93,7 @@ def confirm():
 @auth.route("/verify-token", methods=["GET", "POST"])
 def verify_token():
     auth_type = request.args.get("type", "email")
-    next = request.args.get("next", "home")
+    next = request.args.get("next", "dashboard")
     form = VerifyTokenForm()
     if form.validate_on_submit():
         email = form.email.data
