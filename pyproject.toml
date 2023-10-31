@@ -10,7 +10,7 @@ packages = [{ include = "app" }]
 [tool.poetry.dependencies]
 python = "^3.10"
 supabase = "^2.0.1"
-flask = {extras = ["async"], version = "^3.0.0"}
+flask = "^2.3.3"
 flask-wtf = "^1.1.1"
 email-validator = "^2.0.0.post2"
 poetry-dotenv-plugin = "^0.2.0"
