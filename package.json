@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "tailwindcss -w -i ./tailwind.css -o static/app.css",
     "build": "tailwindcss -m -i ./tailwind.css -o static/app.css",
+    "s:start": "supabase start",
+    "s:stop": "supabase stop",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {

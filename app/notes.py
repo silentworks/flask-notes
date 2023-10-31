@@ -1,8 +1,5 @@
-import base64
 import io
-import requests
 from flask import Blueprint, flash, redirect, render_template, request, url_for
-from PIL import Image, ImageOps
 from postgrest.exceptions import APIError
 from app.forms import NoteForm
 from app.supabase import (

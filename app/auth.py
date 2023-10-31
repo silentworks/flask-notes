@@ -56,7 +56,10 @@ def signup():
 
 @auth.route("/signout", methods=["POST"])
 def signout():
-    supabase.auth.sign_out()
+    try:
+        supabase.auth.sign_out()
+    except AuthApiError:
+        None
     return redirect(url_for("auth.signin"))
 
 

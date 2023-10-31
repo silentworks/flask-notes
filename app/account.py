@@ -1,6 +1,8 @@
-from flask import Blueprint, render_template, flash, request, session
+from flask import Blueprint, redirect, render_template, flash, request, session, url_for
+from flask_wtf import FlaskForm
 from gotrue.errors import AuthApiError
 from postgrest.exceptions import APIError
+from supafunc.errors import FunctionsRelayError, FunctionsHttpError
 
 from app.forms import UpdateEmailForm, UpdateForm, UpdatePasswordForm
 from app.supabase import get_profile_by_user, session_context_processor, supabase
@@ -107,3 +109,26 @@ def update_password():
             flash(err.get("message"), "error")
 
     return render_template("account/update-password.html", form=form, profile=profile)
+
+
+@account.route("/delete", methods=["POST"])
+@login_required
+def delete_account():
+    form = FlaskForm()
+    if form.is_submitted():
+        try:
+            r = supabase.functions.invoke("delete-account")
+
+            if r:
+                flash("Your account has been successfully deleted.", "info")
+                supabase.auth.sign_out()
+                return redirect(url_for("auth.signin"))
+            else:
+                flash(
+                    "We couldn't delete your account, please contact support.", "error"
+                )
+                return redirect(url_for("account.home"))
+        except (FunctionsRelayError, FunctionsHttpError) as exception:
+            err = exception.to_dict()
+            flash(err.get("message"), "error")
+            return redirect(url_for("account.home"))

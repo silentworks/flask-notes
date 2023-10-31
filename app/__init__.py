@@ -1,5 +1,6 @@
-from flask import Flask, g, render_template
-from flask_misaka import Misaka
+from flask import Flask, abort, g, render_template
+
+# from flask_misaka import Misaka
 from app.supabase import (
     supabase,
     session_context_processor,
@@ -13,11 +14,11 @@ from app.decorators import login_required, password_update_required, profile_req
 from app.auth import auth
 from app.account import account
 from app.notes import notes
-from app.utils import humanize_ts, resize_image
+from app.utils import humanize_ts, mkdown, resize_image
 
 app = Flask(__name__, template_folder="../templates", static_folder="../static")
 
-Misaka(app)
+# Misaka(app)
 
 # Set the secret key to some random bytes. Keep this really secret!
 app.secret_key = b"c8af64a6a0672678800db3c5a3a8d179f386e083f559518f2528202a4b7de8f8"
@@ -26,6 +27,7 @@ app.register_blueprint(auth)
 app.register_blueprint(account)
 app.register_blueprint(notes)
 app.jinja_env.filters["humanize"] = humanize_ts
+app.jinja_env.filters["markdown"] = mkdown
 
 
 @app.teardown_appcontext
@@ -59,6 +61,8 @@ def u(slug):
 def user_note(slug, note_slug):
     profile = get_profile_by_slug(slug)
     note = get_note_by_slug(note_slug)
+    if note.get("slug") is None:
+        abort(404)
     featured_image = None
     try:
         r = supabase.storage.from_("featured_image").get_public_url(

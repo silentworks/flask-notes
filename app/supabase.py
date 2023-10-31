@@ -1,8 +1,7 @@
 import os
 from flask import g
 from werkzeug.local import LocalProxy
-from supabase.client import create_client, Client
-from supabase.lib.client_options import ClientOptions
+from supabase.client import create_client, Client, ClientOptions
 from app.flask_storage import FlaskSessionStorage
 from gotrue.errors import AuthApiError, AuthRetryableError
 from gotrue.types import User
