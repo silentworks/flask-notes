@@ -4,7 +4,6 @@ import io
 import random
 import string
 from PIL import Image, ImageOps
-import markdown
 import requests
 
 
@@ -74,7 +73,3 @@ def humanize_ts(timestamp=False, fmt=False):
     if day_diff < 182:
         return str(int(day_diff / 30)) + " months ago"
     return datetm.strftime(fmt or "%b %d %Y")
-
-
-def mkdown(text: str):
-    return markdown.markdown(text)
