@@ -4,19 +4,20 @@ version = "0.1.0"
 description = ""
 authors = ["Andrew Smith <a.smith@silentworks.co.uk>"]
 readme = "README.md"
+license = "MIT"
 packages = [{ include = "app" }]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-supabase = "^1.1.0"
-flask = "^2.3.3"
+supabase = "^2.0.1"
+flask = {extras = ["async"], version = "^3.0.0"}
 flask-wtf = "^1.1.1"
 email-validator = "^2.0.0.post2"
 poetry-dotenv-plugin = "^0.2.0"
 gunicorn = "^21.2.0"
 pillow = "^10.0.1"
 requests = "^2.31.0"
-flask-misaka = "^1.0.0"
+markdown = "^3.4.4"
 
 [tool.flake8]
 ignore = ["F401", "E402"]
