@@ -14,8 +14,8 @@ jobs:
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       SUPABASE_DB_PASSWORD: ${{ secrets.STAGING_DB_PASSWORD }}
       SUPABASE_PROJECT_ID: ${{ secrets.STAGING_PROJECT_ID }}
-      GITHUB_CLIENT_ID: ""
-      GITHUB_SECRET: ""
+      GITHUB_CLIENT_ID: "9e44"
+      GITHUB_SECRET: "2cc178e"
 
     steps:
       - uses: actions/checkout@v3
