@@ -15,7 +15,9 @@ app_name = os.environ.get("APP_NAME", "Flask Notes")
 def get_supabase() -> Client:
     if "supabase" not in g:
         g.supabase: Client = create_client(
-            url, key, options=ClientOptions(storage=FlaskSessionStorage())
+            url,
+            key,
+            options=ClientOptions(storage=FlaskSessionStorage(), flow_type="pkce"),
         )
     return g.supabase
 

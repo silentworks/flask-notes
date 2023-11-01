@@ -29,6 +29,17 @@ def signin():
     return render_template("auth/signin.html", form=form, next=next)
 
 
+@auth.route("/signin/github")
+def signin_with_github():
+    resp = supabase.auth.sign_in_with_oauth(
+        {
+            "provider": "github",
+            "options": {"redirect_to": f"{request.host_url}auth/callback"},
+        }
+    )
+    return redirect(resp.url)
+
+
 @auth.route("/signup", methods=["GET", "POST"])
 def signup():
     form = AuthForm()
@@ -89,6 +100,18 @@ def confirm():
             session["password_update_required"] = True
 
         supabase.auth.verify_otp(params={"token_hash": token_hash, "type": auth_type})
+
+    return redirect(url_for(next))
+
+
+@auth.route("/callback")
+def callback():
+    code = request.args.get("code")
+    next = request.args.get("next", "dashboard")
+
+    if code:
+        res = supabase.auth.exchange_code_for_session({"auth_code": code})
+        print(res)
 
     return redirect(url_for(next))
 
