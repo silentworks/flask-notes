@@ -111,7 +111,6 @@ def callback():
 
     if code:
         res = supabase.auth.exchange_code_for_session({"auth_code": code})
-        print(res)
 
     return redirect(url_for(next))
 
