@@ -131,7 +131,7 @@ secret = "env(GITHUB_SECRET)"
 # Overrides the default auth redirectUrl.
 redirect_uri = ""
 [auth.external.google]
-enabled = true
+enabled = false
 client_id = "env(GOOGLE_CLIENT_ID)"
 secret = "env(GOOGLE_SECRET)"
 # Overrides the default auth redirectUrl.
