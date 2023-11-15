@@ -11,7 +11,7 @@
 	{{ h.alert('mb-10') }}
 	<h2 class="font-semibold text-4xl mb-4">Update Email</h2>
 	<p class="font-medium mb-4">
-		Hi {{ profile.display_name or session.user.email }}, Enter your new email below and confirm it
+		Hi {{ profile.display_name or user.email }}, Enter your new email below and confirm it
 	</p>
 	<form action="{{ url_for('account.update_email') }}" method="post">
 		{{ form.csrf_token }}

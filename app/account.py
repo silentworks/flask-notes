@@ -5,11 +5,11 @@ from postgrest.exceptions import APIError
 from supafunc.errors import FunctionsRelayError, FunctionsHttpError
 
 from app.forms import UpdateEmailForm, UpdateForm, UpdatePasswordForm
-from app.supabase import get_profile_by_user, session_context_processor, supabase
+from app.supabase import get_profile_by_user, user_context_processor, supabase
 from app.decorators import login_required, password_update_required, profile_required
 
 account = Blueprint("account", __name__, url_prefix="/account")
-account.context_processor(session_context_processor)
+account.context_processor(user_context_processor)
 
 
 @account.route("/")

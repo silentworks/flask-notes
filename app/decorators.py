@@ -2,24 +2,24 @@ from functools import wraps
 from typing import Union
 from flask import redirect, session, url_for, request
 from gotrue.errors import AuthApiError, AuthRetryableError
-from gotrue.types import Session, User
+from gotrue.types import User
 from app.supabase import get_profile_by_user, supabase
 
 
 def login_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        sess: Union[Session, None] = None
+        user: Union[User, None] = None
         try:
-            sess = supabase.auth.get_session()
+            user = supabase.auth.get_user()
         except AuthApiError as exception:
             err = exception.to_dict()
             if err.get("message") == "Invalid Refresh Token: Already Used":
-                sess = None
+                user = None
         except AuthRetryableError:
             return redirect(url_for("service_unavailable"))
 
-        if sess is None:
+        if user is None:
             return redirect(url_for("auth.signin", next=request.endpoint))
 
         return f(*args, **kwargs)
