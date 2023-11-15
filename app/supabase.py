@@ -25,12 +25,12 @@ def get_supabase() -> Client:
 supabase: Client = LocalProxy(get_supabase)
 
 
-def session_context_processor():
+def user_context_processor():
     try:
-        sess = supabase.auth.get_session()
-        return dict(session=sess, app_name=app_name)
+        user = supabase.auth.get_user()
+        return dict(user=user, app_name=app_name)
     except (AuthApiError, AuthRetryableError):
-        return dict(session=None, app_name=app_name)
+        return dict(user=None, app_name=app_name)
 
 
 def get_profile(user_or_slug: Union[User, str]):
@@ -58,8 +58,7 @@ def get_profile(user_or_slug: Union[User, str]):
 
 
 def get_profile_by_user():
-    sess = supabase.auth.get_session()
-    user = sess.user
+    user = supabase.auth.get_user()
     return get_profile(user)
 
 
@@ -91,8 +90,7 @@ def get_notes(user_or_user_id: Union[User, str], public_only: bool = False):
 
 
 def get_notes_by_user():
-    sess = supabase.auth.get_session()
-    user = sess.user
+    user = supabase.auth.get_user()
     return get_notes(user)
 
 
@@ -137,8 +135,7 @@ def get_note(user_or_slug: Union[User, str], id: str):
 
 
 def get_note_by_user_and_id(id: str):
-    sess = supabase.auth.get_session()
-    user = sess.user
+    user = supabase.auth.get_user()
     return get_note(user, id)
 
 

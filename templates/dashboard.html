@@ -6,7 +6,7 @@
 {% block content %}
   <div class="card w-4/12 bg-base-100 shadow-xl">
     <div class="card-body">
-      <h2 class="card-title">Welcome {{ profile.display_name or session.user.email }}</h2>
+      <h2 class="card-title">Welcome {{ profile.display_name or user.email }}</h2>
       {% if profile.display_name %}
         <p>
           Name: {{ profile.first_name }}

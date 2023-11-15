@@ -20,7 +20,7 @@
           {% for id, caption in navigation_bar %}
             <a class="btn btn-ghost no-animation {{ 'btn-active' if active_page == id else ''}}" href="{{ url_for(id) }}">{{ caption }}</a>
           {% endfor %}
-          <form action="{{ url_for('auth.signout') }}" method="post" use:enhance>
+          <form action="{{ url_for('auth.signout') }}" method="post">
             <button class="btn btn-outline btn-error no-animation">Sign out</button>
           </form>
         </div>
