@@ -2,14 +2,14 @@ from functools import wraps
 from typing import Union
 from flask import redirect, session, url_for, request
 from gotrue.errors import AuthApiError, AuthRetryableError
-from gotrue.types import User
+from gotrue.types import UserResponse
 from app.supabase import get_profile_by_user, supabase
 
 
 def login_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        user: Union[User, None] = None
+        user: Union[UserResponse, None] = None
         try:
             user = supabase.auth.get_user()
         except AuthApiError as exception:
