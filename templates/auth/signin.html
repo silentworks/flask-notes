@@ -24,9 +24,9 @@
           fill-opacity="0.6"
         />
       </svg>
-      Login with GitHub
+      Continue with GitHub
     </a>
-    <div class="divider text-gray-400 text-sm">or Login with Email</div>
+    <div class="divider text-gray-400 text-sm">or continue with Email</div>
     <form action="{{ url_for('auth.signin', next=next) }}" method="post">
       {% include 'auth/_form_partial.html' %}
       

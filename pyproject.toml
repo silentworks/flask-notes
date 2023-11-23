@@ -9,7 +9,7 @@ packages = [{ include = "app" }]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-supabase = "^2.0.3"
+supabase = "^2.1.0"
 flask = "^2.3.3"
 flask-wtf = "^1.1.1"
 email-validator = "^2.0.0.post2"
