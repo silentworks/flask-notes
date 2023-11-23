@@ -1,7 +1,7 @@
 import os
 from flask import g
 from werkzeug.local import LocalProxy
-from supabase.client import create_client, Client, ClientOptions
+from supabase.client import Client, ClientOptions
 from app.flask_storage import FlaskSessionStorage
 from gotrue.errors import AuthApiError, AuthRetryableError
 from gotrue.types import User
@@ -14,7 +14,7 @@ app_name = os.environ.get("APP_NAME", "Flask Notes")
 
 def get_supabase() -> Client:
     if "supabase" not in g:
-        g.supabase: Client = create_client(
+        g.supabase = Client(
             url,
             key,
             options=ClientOptions(storage=FlaskSessionStorage(), flow_type="pkce"),
