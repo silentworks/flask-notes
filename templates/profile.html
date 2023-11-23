@@ -26,8 +26,8 @@
                   </svg>                      
                 </a>
               </h3>
-              <article class="prose">
-              <p class="mt-2 max-w-2xl text-sm text-gray-500">{{ note.content | markdown | truncate(190) }}</p>
+              <article class="mt-2 max-w-2xl text-sm text-gray-500 space-y-2">
+                {{ note.content | markdown | truncate(190) }}
               </article>
             </div>
           </div>
