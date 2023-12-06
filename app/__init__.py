@@ -1,5 +1,7 @@
 from flask import Flask, abort, g, render_template
+from dotenv import load_dotenv
 
+load_dotenv()  # take environment variables from .env.
 from flask_misaka import Misaka
 from app.supabase import (
     supabase,
