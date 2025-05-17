@@ -2,7 +2,7 @@ from flask import Flask, abort, g, render_template
 from dotenv import load_dotenv
 
 load_dotenv()  # take environment variables from .env.
-from flask_misaka import Misaka
+from flaskext.markdown import Markdown
 from app.supabase import (
     supabase,
     user_context_processor,
@@ -20,7 +20,7 @@ from app.utils import humanize_ts, resize_image
 
 app = Flask(__name__, template_folder="../templates", static_folder="../static")
 
-Misaka(app)
+Markdown(app)
 
 # Set the secret key to some random bytes. Keep this really secret!
 app.secret_key = b"c8af64a6a0672678800db3c5a3a8d179f386e083f559518f2528202a4b7de8f8"
