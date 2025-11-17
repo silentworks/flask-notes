@@ -1,5 +1,6 @@
 import os
 from flask import Blueprint, render_template, redirect, request, session, url_for, flash
+from supabase_auth import VerifyEmailOtpParams, VerifyTokenHashParams
 from app.forms import AuthForm, ForgotPasswordForm, VerifyTokenForm
 from app.supabase import supabase
 from supabase import AuthApiError
@@ -92,14 +93,14 @@ def forgot_password():
 @auth.route("/confirm")
 def confirm():
     token_hash = request.args.get("token_hash")
-    auth_type = request.args.get("type")
+    auth_type = request.args.get("type", "email")
     next = request.args.get("next", "notes.home")
 
     if token_hash and auth_type:
         if auth_type == "recovery":
             session["password_update_required"] = True
 
-        supabase.auth.verify_otp(params={"token_hash": token_hash, "type": auth_type})
+        _ = supabase.auth.verify_otp(params=VerifyTokenHashParams(token_hash=token_hash, type=auth_type))
 
     return redirect(url_for(next))
 
@@ -110,7 +111,7 @@ def callback():
     next = request.args.get("next", "notes.home")
 
     if code:
-        res = supabase.auth.exchange_code_for_session({"auth_code": code})
+        _ = supabase.auth.exchange_code_for_session({"auth_code": code})
 
     return redirect(url_for(next))
 
@@ -129,8 +130,8 @@ def verify_token():
                 session["password_update_required"] = True
 
         try:
-            supabase.auth.verify_otp(
-                params={"email": email, "token": token, "type": auth_type}
+            _ = supabase.auth.verify_otp(
+                params=VerifyEmailOtpParams(email=email, token=token, type=auth_type)
             )
             return redirect(url_for(next))
         except AuthApiError as exception:

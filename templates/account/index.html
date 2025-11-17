@@ -14,13 +14,16 @@
     {{ h.alert('mb-10') }}
     <ul class="divide-y-2 divide-gray-200">
         <li class="flex justify-between hover:bg-blue-600 hover:text-blue-200">
-            <a class="block w-full p-3" href="/account/update">Update</a>
+          <a class="block w-full p-3" href="{{ url_for('account.update') }}">Update</a>
         </li>
         <li class="flex justify-between hover:bg-blue-600 hover:text-blue-200">
-            <a class="block w-full p-3" href="/account/update-email">Update email</a>
+          <a class="block w-full p-3" href="{{ url_for('account.update_email') }}">Update email</a>
         </li>
         <li class="flex justify-between hover:bg-blue-600 hover:text-blue-200">
-            <a class="block w-full p-3" href="/account/update-password">Update password</a>
+            <a class="block w-full p-3" href="{{ url_for('account.update_password') }}">Update password</a>
+        </li>
+        <li class="flex justify-between hover:bg-blue-600 hover:text-blue-200">
+            <a class="block w-full p-3" href="{{ url_for('account.list_identities') }}">Connect social</a>
         </li>
     </ul>
     <div class="flex flex-col justify-between border border-red-300 rounded-md p-4 mt-10">

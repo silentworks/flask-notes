@@ -109,6 +109,66 @@ def update_password():
 
     return render_template("account/update-password.html", form=form, profile=profile)
 
+@account.route("/connect", methods=["GET", "POST"])
+@login_required
+@profile_required
+def list_identities():
+    profile = get_profile_by_user()
+    res = supabase.auth.get_user_identities()
+    identities = res.identities
+    connected_identities = list(
+        map(lambda identity: identity.provider, res.identities)
+    )
+    form = UpdatePasswordForm()
+    if form.validate_on_submit():
+        password = form.password.data
+
+        try:
+            user = supabase.auth.update_user(attributes={"password": password})
+
+            if user:
+                flash("Your password was updated successfully.", "info")
+                session.pop("password_update_required", None)
+            else:
+                flash("Updating your password failed, please try again.", "error")
+        except AuthApiError as exception:
+            err = exception.to_dict()
+            flash(err.get("message"), "error")
+
+    return render_template("account/identities.html", 
+                           profile=profile, 
+                           identities=identities, 
+                           connected_identities=connected_identities,
+                           )
+
+@account.route("/connect/github")
+@login_required
+def link_github():
+    resp = supabase.auth.link_identity(
+        {
+            "provider": "github",
+            "options": {"redirect_to": f"{request.host_url}auth/callback?next=account.list_identities"},
+        }
+    )
+    flash(f"{'github'.title()} was successfully linked.", "info")
+
+    return redirect(resp.url)
+
+@account.route("/connect/<provider>/disconnect")
+@login_required
+def unlink_provider(provider):
+    try:
+        res = supabase.auth.get_user_identities()
+        identity = list(
+            filter(lambda identity: identity.provider == provider, res.identities)
+        ).pop()
+        res = supabase.auth.unlink_identity(identity)
+        flash(f"{identity.provider.title()} was successfully unlinked.", "info")
+    except AuthApiError as exception:
+        err = exception.to_dict()
+        flash(err.get("message"), "error")
+
+    return redirect(url_for("account.list_identities"))
 
 @account.route("/delete", methods=["POST"])
 @login_required
