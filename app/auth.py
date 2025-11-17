@@ -2,7 +2,7 @@ import os
 from flask import Blueprint, render_template, redirect, request, session, url_for, flash
 from app.forms import AuthForm, ForgotPasswordForm, VerifyTokenForm
 from app.supabase import supabase
-from gotrue.errors import AuthApiError
+from supabase import AuthApiError
 
 auth = Blueprint("auth", __name__, url_prefix="/auth")
 supabase_key = os.environ.get("SUPABASE_KEY", "")
@@ -22,7 +22,7 @@ def signin():
             )
 
             if user:
-                return redirect(url_for(next or "dashboard"))
+                return redirect(url_for(next or "notes.home"))
         except AuthApiError as message:
             flash(message, "error")
 

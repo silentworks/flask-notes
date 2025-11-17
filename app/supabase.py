@@ -1,10 +1,15 @@
 import os
 from flask import g
 from werkzeug.local import LocalProxy
-from supabase.client import create_client, Client, ClientOptions
+from supabase import (
+    create_client, 
+    Client, 
+    ClientOptions,
+    AuthApiError,
+    AuthRetryableError,
+)
+from supabase_auth import User
 from app.flask_storage import FlaskSessionStorage
-from gotrue.errors import AuthApiError, AuthRetryableError
-from gotrue.types import User
 from typing import Union
 
 url = os.environ.get("SUPABASE_URL", "")

@@ -1,8 +1,7 @@
 from flask import Blueprint, redirect, render_template, flash, request, session, url_for
 from flask_wtf import FlaskForm
-from gotrue.errors import AuthApiError
+from supabase import AuthApiError, FunctionsRelayError, FunctionsHttpError
 from postgrest.exceptions import APIError
-from supafunc.errors import FunctionsRelayError, FunctionsHttpError
 
 from app.forms import UpdateEmailForm, UpdateForm, UpdatePasswordForm
 from app.supabase import get_profile_by_user, user_context_processor, supabase

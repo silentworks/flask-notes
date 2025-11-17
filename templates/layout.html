@@ -9,23 +9,23 @@
 
 {% block body %}
   <main data-theme="winter">
-    <div class="flex flex-col h-screen">
-      <div class="navbar border-b border-gray-300 px-4">
-        <div class="flex-1">
+    <div class="min-h-screen">
+      <div class="fixed w-64 h-screen top-0 left-0 flex flex-col border-r border-gray-300">
+        <div class="p-8 mb-4 border-b border-gray-300">
           <h1 class="font-semibold">
             <a href="{{ url_for('dashboard') }}">{{ app_name }}</a>
           </h1>
         </div>
-        <div class="flex-none space-x-10">
+        <div class="flex flex-col flex-1 space-y-2 px-2">
           {% for id, caption in navigation_bar %}
-            <a class="btn btn-ghost no-animation {{ 'btn-active' if active_page == id else ''}}" href="{{ url_for(id) }}">{{ caption }}</a>
+            <a class="btn btn-ghost justify-start normal-case no-animation {{ 'btn-active' if active_page == id else ''}}" href="{{ url_for(id) }}">{{ caption }}</a>
           {% endfor %}
-          <form action="{{ url_for('auth.signout') }}" method="post">
-            <button class="btn btn-outline btn-error no-animation">Sign out</button>
-          </form>
         </div>
+        <form class="flex flex-col mt-auto" action="{{ url_for('auth.signout') }}" method="post">
+          <button class="text-left p-6 py-4 font-semibold hover:text-red-400 border-t border-gray-300 normal-case">Sign out</button>
+        </form>
       </div>
-      <div class="grid place-items-center my-20 mx-2">
+      <div class="grid ml-64 my-2 mx-2">
         {% block content %}{% endblock %}
       </div>
     </div>
