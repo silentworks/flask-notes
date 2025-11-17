@@ -93,7 +93,7 @@ def forgot_password():
 def confirm():
     token_hash = request.args.get("token_hash")
     auth_type = request.args.get("type")
-    next = request.args.get("next", "dashboard")
+    next = request.args.get("next", "notes.home")
 
     if token_hash and auth_type:
         if auth_type == "recovery":
@@ -107,7 +107,7 @@ def confirm():
 @auth.route("/callback")
 def callback():
     code = request.args.get("code")
-    next = request.args.get("next", "dashboard")
+    next = request.args.get("next", "notes.home")
 
     if code:
         res = supabase.auth.exchange_code_for_session({"auth_code": code})
@@ -118,7 +118,7 @@ def callback():
 @auth.route("/verify-token", methods=["GET", "POST"])
 def verify_token():
     auth_type = request.args.get("type", "email")
-    next = request.args.get("next", "dashboard")
+    next = request.args.get("next", "notes.home")
     form = VerifyTokenForm()
     if form.validate_on_submit():
         email = form.email.data
