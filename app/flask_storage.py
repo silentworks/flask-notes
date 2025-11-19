@@ -1,4 +1,4 @@
-from gotrue import SyncSupportedStorage
+from supabase_auth import SyncSupportedStorage
 from flask import session
 
 

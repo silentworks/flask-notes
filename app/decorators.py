@@ -1,8 +1,8 @@
 from functools import wraps
 from typing import Union
 from flask import redirect, session, url_for, request
-from gotrue.errors import AuthApiError, AuthRetryableError
-from gotrue.types import UserResponse
+from supabase import AuthApiError, AuthRetryableError
+from supabase_auth.types import UserResponse
 from app.supabase import get_profile_by_user, supabase
 
 

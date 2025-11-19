@@ -1,28 +1,35 @@
-[tool.poetry]
-name = "app"
-version = "0.1.0"
+[project]
+name = "flask-notes"
+version = "0.2.0"
 description = ""
-authors = ["Andrew Smith <a.smith@silentworks.co.uk>"]
+authors = [{ name = "Andrew Smith", email = "a.smith@silentworks.co.uk" }]
+requires-python = "~=3.10"
 readme = "README.md"
 license = "MIT"
-packages = [{ include = "app" }]
-
-[tool.poetry.dependencies]
-python = "^3.10"
-supabase = "^2.1.0"
-flask = "^2.3.3"
-flask-wtf = "^1.1.1"
-email-validator = "^2.0.0.post2"
-poetry-dotenv-plugin = "^0.2.0"
-gunicorn = "^21.2.0"
-pillow = "^10.0.1"
-requests = "^2.31.0"
-flask-misaka = "^1.0.0"
+dependencies = [
+    "supabase>=2.24.0,<3",
+    "flask>=2.3.3,<3",
+    "flask-wtf>=1.1.1,<2",
+    "email-validator>=2.0.0.post2,<3",
+    "poetry-dotenv-plugin>=0.2.0,<0.3",
+    "gunicorn>=21.2.0,<22",
+    "pillow>=10.0.1,<11",
+    "requests>=2.31.0,<3",
+    "python-dotenv>=1.0.0,<2",
+    "flask-markdown>=0.3,<0.4",
+    "httpx==0.28.0",
+]
 
 [tool.flake8]
 ignore = ["F401", "E402"]
 exclude = [".venv"]
 
+[tool.hatch.build.targets.sdist]
+include = ["app"]
+
+[tool.hatch.build.targets.wheel]
+include = ["app"]
+
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"

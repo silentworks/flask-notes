@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% import "_helpers.html" as h %}
+{% set active_page = "account.home" %}
+
+{% block title %}Connect Social{% endblock %}
+
+{% block content %}
+<div class="w-11/12 p-12 px-6 py-10 lg:w-full 2xl:w-5/12 sm:px-10 sm:py-6">
+    <h2 class="font-semibold text-2xl mb-4">Connect Social</h2>
+    <p class="font-medium mb-10">
+        Hi {{ profile.display_name or user.email }}, you can update your social auth from here
+    </p>
+
+    {{ h.alert('mb-10') }}
+    <ul class="divide-y-2 divide-gray-200">
+      {% if "email" in connected_identities %}
+        <li class="flex gap-2 items-center justify-between py-2">
+          <h3 class="grow text-base leading-6 font-semibold">Email</h3>
+          <p class="block p-3 text-blue-600">Connected</p>
+        </li>
+      {% endif %}
+        <li class="flex gap-2 items-center justify-between py-2">
+          <h3 class="grow text-base leading-6 font-semibold">Github</h3>
+          {% if connected_identities | length < 2 and "github" in connected_identities %}
+            <p class="block p-3 text-blue-600">Connected</p>
+          {% else %}
+            {% if "github" in connected_identities %}
+              <a class="block px-4 py-2 font-medium rounded-md border border-red-300 text-red-300 hover:bg-red-600 hover:text-white" href="{{ url_for('account.unlink_provider', provider='github') }}">Disconnect</a>
+            {% else %}
+              <a class="block px-4 py-2 font-medium rounded-md border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-blue-200" href="{{ url_for('account.link_github') }}">Connect</a>
+            {% endif %}
+          {% endif %}
+        </li>
+    </ul>
+</div>
+{% endblock %}

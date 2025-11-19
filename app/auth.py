@@ -1,8 +1,10 @@
 import os
 from flask import Blueprint, render_template, redirect, request, session, url_for, flash
+from pydantic import ValidationError
+from supabase_auth import VerifyEmailOtpParams, VerifyTokenHashParams
 from app.forms import AuthForm, ForgotPasswordForm, VerifyTokenForm
 from app.supabase import supabase
-from gotrue.errors import AuthApiError
+from supabase import AuthApiError
 
 auth = Blueprint("auth", __name__, url_prefix="/auth")
 supabase_key = os.environ.get("SUPABASE_KEY", "")
@@ -22,7 +24,7 @@ def signin():
             )
 
             if user:
-                return redirect(url_for(next or "dashboard"))
+                return redirect(url_for(next or "notes.home"))
         except AuthApiError as message:
             flash(message, "error")
 
@@ -92,14 +94,17 @@ def forgot_password():
 @auth.route("/confirm")
 def confirm():
     token_hash = request.args.get("token_hash")
-    auth_type = request.args.get("type")
-    next = request.args.get("next", "dashboard")
+    auth_type = request.args.get("type", "email")
+    next = request.args.get("next", "notes.home")
 
     if token_hash and auth_type:
         if auth_type == "recovery":
             session["password_update_required"] = True
 
-        supabase.auth.verify_otp(params={"token_hash": token_hash, "type": auth_type})
+        try:
+            _ = supabase.auth.verify_otp(params=VerifyTokenHashParams(token_hash=token_hash, type=auth_type))
+        except ValidationError as exception:
+            flash("Validation error, please contact support", "error")
 
     return redirect(url_for(next))
 
@@ -107,10 +112,10 @@ def confirm():
 @auth.route("/callback")
 def callback():
     code = request.args.get("code")
-    next = request.args.get("next", "dashboard")
+    next = request.args.get("next", "notes.home")
 
     if code:
-        res = supabase.auth.exchange_code_for_session({"auth_code": code})
+        _ = supabase.auth.exchange_code_for_session({"auth_code": code})
 
     return redirect(url_for(next))
 
@@ -118,7 +123,7 @@ def callback():
 @auth.route("/verify-token", methods=["GET", "POST"])
 def verify_token():
     auth_type = request.args.get("type", "email")
-    next = request.args.get("next", "dashboard")
+    next = request.args.get("next", "notes.home")
     form = VerifyTokenForm()
     if form.validate_on_submit():
         email = form.email.data
@@ -129,8 +134,8 @@ def verify_token():
                 session["password_update_required"] = True
 
         try:
-            supabase.auth.verify_otp(
-                params={"email": email, "token": token, "type": auth_type}
+            _ = supabase.auth.verify_otp(
+                params=VerifyEmailOtpParams(email=email, token=token, type=auth_type)
             )
             return redirect(url_for(next))
         except AuthApiError as exception:
