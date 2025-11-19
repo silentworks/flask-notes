@@ -170,9 +170,15 @@ def unlink_provider(provider):
 
     return redirect(url_for("account.list_identities"))
 
-@account.route("/delete", methods=["POST"])
+@account.route("/delete/confirm")
 @login_required
-def delete_account():
+def destroy():
+    profile = get_profile_by_user()
+    return render_template("account/delete.html", profile=profile)
+
+@account.route("/delete/confirm", methods=["POST"])
+@login_required
+def destroy_confirm():
     form = FlaskForm()
     if form.is_submitted():
         try:

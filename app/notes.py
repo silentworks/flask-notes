@@ -1,5 +1,6 @@
 import io
 from flask import Blueprint, flash, redirect, render_template, request, url_for
+from flask_wtf import FlaskForm
 from postgrest.exceptions import APIError
 from app.forms import NoteForm
 from app.supabase import (
@@ -164,3 +165,25 @@ def edit(note_id):
         note=note,
         preview_image=preview_image,
     )
+
+@notes.route("/<note_id>/delete", methods=["POST"])
+@login_required
+def delete_note(note_id):
+    form = FlaskForm()
+    if form.is_submitted():
+        try:
+            r = supabase.table("notes").delete().eq("id", note_id).execute()
+
+            if r.data:
+                flash("Your note has been successfully deleted.", "info")
+                return redirect(url_for("notes.home"))
+            else:
+                flash(
+                    "We couldn't delete your note, please contact support.", "error"
+                )
+                return redirect(url_for("notes.home"))
+        except APIError as exception:
+            err = exception.to_dict()
+            flash(err.get("message"), "error")
+            return redirect(url_for("notes.home"))
+

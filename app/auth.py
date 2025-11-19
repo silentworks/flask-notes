@@ -1,5 +1,6 @@
 import os
 from flask import Blueprint, render_template, redirect, request, session, url_for, flash
+from pydantic import ValidationError
 from supabase_auth import VerifyEmailOtpParams, VerifyTokenHashParams
 from app.forms import AuthForm, ForgotPasswordForm, VerifyTokenForm
 from app.supabase import supabase
@@ -100,7 +101,10 @@ def confirm():
         if auth_type == "recovery":
             session["password_update_required"] = True
 
-        _ = supabase.auth.verify_otp(params=VerifyTokenHashParams(token_hash=token_hash, type=auth_type))
+        try:
+            _ = supabase.auth.verify_otp(params=VerifyTokenHashParams(token_hash=token_hash, type=auth_type))
+        except ValidationError as exception:
+            flash("Validation error, please contact support", "error")
 
     return redirect(url_for(next))
 

@@ -21,13 +21,13 @@
       {% endif %}
         <li class="flex gap-2 items-center justify-between py-2">
           <h3 class="grow text-base leading-6 font-semibold">Github</h3>
-          {% if connected_identities | length < 2 %}
+          {% if connected_identities | length < 2 and "github" in connected_identities %}
             <p class="block p-3 text-blue-600">Connected</p>
           {% else %}
             {% if "github" in connected_identities %}
-              <a class="block p-3 rounded-lg border border-red-300 text-red-300 hover:bg-red-600 hover:text-white" href="{{ url_for('account.unlink_provider', provider='github') }}">Disconnect</a>
+              <a class="block px-4 py-2 font-medium rounded-md border border-red-300 text-red-300 hover:bg-red-600 hover:text-white" href="{{ url_for('account.unlink_provider', provider='github') }}">Disconnect</a>
             {% else %}
-              <a class="block p-3 hover:bg-blue-600 hover:text-blue-200" href="{{ url_for('account.link_github') }}">Connect</a>
+              <a class="block px-4 py-2 font-medium rounded-md border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-blue-200" href="{{ url_for('account.link_github') }}">Connect</a>
             {% endif %}
           {% endif %}
         </li>

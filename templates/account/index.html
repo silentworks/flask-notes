@@ -28,9 +28,13 @@
     </ul>
     <div class="flex flex-col justify-between border border-red-300 rounded-md p-4 mt-10">
         <p class="mb-4">Deleting an account is an irreversible action that permanently erases all associated data and cannot be undone.</p>
-        <form action="{{ url_for('account.delete_account') }}" method="post" class="w-full">
-            <button class="block w-full bg-red-700 text-white hover:bg-red-600 hover:text-gray-200 p-3">Delete Account</button>
-        </form>
+        <a 
+          class="block text-center rounded-md w-full bg-red-700 text-white hover:bg-red-600 hover:text-gray-200 p-3" 
+          href="{{ url_for('account.destroy') }}"
+        >Delete Account</a>
+        <!-- <form action="" method="post" class="w-full"> -->
+        <!--     <button class="block rounded-md w-full bg-red-700 text-white hover:bg-red-600 hover:text-gray-200 p-3">Delete Account</button> -->
+        <!-- </form> -->
     </div>
 </div>
 {% endblock %}
