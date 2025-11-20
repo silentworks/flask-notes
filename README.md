@@ -5,7 +5,7 @@ This is a Flask/Supabase project showing how to create a user profile along with
 This project makes use of:
 
 - [Supabase Python Library](https://supabase.com/docs/reference/python/introduction)
-- [Poetry](https://python-poetry.org/)
+- [uv](https://docs.astral.sh/uv/)
 - [Flask](https://flask.palletsprojects.com/en/3.0.x/)
 - [DaisyUI](https://daisyui.com/)
 - [tailwindcss](https://tailwindcss.com/)
@@ -22,24 +22,23 @@ Create a copy of this project using the commands below:
 ```bash
 npx degit silentworks/flask-notes project-name
 cd project-name
-npm install # or pnpm install or yarn install
-poetry install
+pnpm install # or npm install or yarn install
 ```
 
 Run the command below to start your local Supabase docker instance
 
 ```bash
-npx supabase start
+pnpm dlx supabase start # npx supabase start
 ```
 
-Copy `.env.example` file and rename it `.env`. Now copy the credentials you were given when you ran `npx supabase start` into this file.
+Copy `.env.example` file and rename it `.env`. Now copy the credentials you were given when you ran `pnpm dlx supabase start` into this file.
 
-> Be sure to take a peek at the `.sql` files inside the `supabase/migrations` and `supabase/tests` directory. You can run the supabase tests by calling `npx supabase test db`.
+> Be sure to take a peek at the `.sql` files inside the `supabase/migrations` and `supabase/tests` directory. You can run the supabase tests by calling `pnpm dlx supabase test db`.
 
 Now we can start the project dev server:
 
 ```bash
-poetry run flask run --debug
+uv run flask run --debug
 ```
 
 We can now navigate to the `/auth/signup` url to create an account.

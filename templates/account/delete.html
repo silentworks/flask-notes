@@ -1,17 +1,18 @@
 {% extends "layout.html" %}
-{% import "_helpers.html" as h %}
+{% from "_helpers.html" import alert, breadcrumbs %}
 {% set active_page = "account.home" %}
 
 {% block title %}Account{% endblock %}
 
 {% block content %}
 <div class="w-11/12 p-12 px-6 py-10 lg:w-full 2xl:w-5/12 sm:px-10 sm:py-6">
+    {{ breadcrumbs('Account', 'account.home', 'Delete Account') }}
     <h2 class="font-semibold text-2xl mb-4">Delete Account</h2>
     <p class="font-medium mb-10">
         Hi {{ profile.display_name or user.email }}, you are about to perform an irreversible action
     </p>
 
-    {{ h.alert('mb-10') }}
+    {{ alert('mb-10') }}
     <div class="flex flex-col justify-between border border-red-300 rounded-md p-4 mt-10">
         <h2 class="text-xl mb-4">Are you sure you want to delete your account?</h2>
         <p class="mb-4">Deleting an account is an irreversible action that permanently erases all associated data and cannot be undone.</p>
