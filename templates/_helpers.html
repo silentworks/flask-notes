@@ -19,3 +19,12 @@
 {% macro generate_url(slug) -%}
     {{ request.host_url }}u/{{ slug }}
 {%- endmacro %}
+
+{% macro breadcrumbs(parent_name, parent_endpoint, current) -%}
+  <div class="breadcrumbs text-sm mb-4">
+    <ul>
+      <li><a href="{{ url_for(parent_endpoint) }}">{{ parent_name }}</a></li>
+      <li>{{ current }}</li>
+    </ul>
+  </div>
+{%- endmacro %}

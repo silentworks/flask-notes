@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% from "_helpers.html" import alert, breadcrumbs %}
 {% import "_helpers.html" as h %}
 {% set active_page = "account.home" %}
 
@@ -6,12 +7,13 @@
 
 {% block content %}
 <div class="w-11/12 p-12 px-6 py-10 lg:w-full 2xl:w-5/12 sm:px-10 sm:py-6">
+    {{ breadcrumbs('Account', 'account.home', 'Connect Social') }}
     <h2 class="font-semibold text-2xl mb-4">Connect Social</h2>
     <p class="font-medium mb-10">
         Hi {{ profile.display_name or user.email }}, you can update your social auth from here
     </p>
 
-    {{ h.alert('mb-10') }}
+    {{ alert('mb-10') }}
     <ul class="divide-y-2 divide-gray-200">
       {% if "email" in connected_identities %}
         <li class="flex gap-2 items-center justify-between py-2">

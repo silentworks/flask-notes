@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% import "_helpers.html" as h %}
+{% from "_helpers.html" import alert, form_error %}
 {% set active_page = "notes.home" %}
 
 {% block title %}Notes{% endblock %}
@@ -18,7 +18,7 @@
         </div>
     </div>
 
-    {{ h.alert('mb-10') }}
+    {{ alert('mb-10') }}
     <ul class="bg-white overflow-hidden sm:rounded-md mx-auto space-y-4">
         {% for note in notes %}
         <li class="border border-gray-200 rounded">

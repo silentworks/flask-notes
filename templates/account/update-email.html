@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% import "_helpers.html" as h %}
+{% from "_helpers.html" import alert, form_error, breadcrumbs %}
 {% set active_page = "account.home" %}
 
 {% block title %}Update Email{% endblock %}
@@ -8,24 +8,26 @@
 <div
 	class="w-11/12 p-12 px-6 py-10 lg:w-full 2xl:w-5/12 sm:px-10 sm:py-6"
 >
-	{{ h.alert('mb-10') }}
+  {{ breadcrumbs('Account', 'account.home', 'Update Email') }}
 	<h2 class="font-semibold text-2xl mb-4">Update Email</h2>
 	<p class="font-medium mb-4">
 		Hi {{ profile.display_name or user.email }}, Enter your new email below and confirm it
 	</p>
+	
+  {{ alert('mb-10') }}
 	<form action="{{ url_for('account.update_email') }}" method="post">
 		{{ form.csrf_token }}
 		<div class="form-control">
 			{{ form.email.label(class="label") }}
-            {{ form.email(class="input input-bordered") }}
+      {{ form.email(class="input input-bordered") }}
 		</div>
-		{{ h.form_error(form.email) }}
+		{{ form_error(form.email) }}
 
 		<div class="form-control">
 			{{ form.email_confirm.label(class="label") }}
 			{{ form.email_confirm(class="input input-bordered") }}
 		</div>
-		{{ h.form_error(form.email_confirm) }}
+		{{ form_error(form.email_confirm) }}
 
 		<div class="form-control mt-6">
 			<button class="btn btn-primary no-animation">Update Email</button>

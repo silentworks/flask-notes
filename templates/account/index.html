@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% import "_helpers.html" as h %}
+{% from "_helpers.html" import alert, breadcrumbs %}
 {% set active_page = "account.home" %}
 
 {% block title %}Account{% endblock %}
@@ -11,7 +11,7 @@
         Hi {{ profile.display_name or user.email }}, you can update your email or password from here
     </p>
 
-    {{ h.alert('mb-10') }}
+    {{ alert('mb-10') }}
     <ul class="divide-y-2 divide-gray-200">
         <li class="flex justify-between hover:bg-blue-600 hover:text-blue-200">
           <a class="block w-full p-3" href="{{ url_for('account.update') }}">Update</a>
@@ -32,9 +32,6 @@
           class="block text-center rounded-md w-full bg-red-700 text-white hover:bg-red-600 hover:text-gray-200 p-3" 
           href="{{ url_for('account.destroy') }}"
         >Delete Account</a>
-        <!-- <form action="" method="post" class="w-full"> -->
-        <!--     <button class="block rounded-md w-full bg-red-700 text-white hover:bg-red-600 hover:text-gray-200 p-3">Delete Account</button> -->
-        <!-- </form> -->
     </div>
 </div>
 {% endblock %}

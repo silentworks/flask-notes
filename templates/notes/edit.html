@@ -1,12 +1,12 @@
 {% extends "layout.html" %}
-{% import "_helpers.html" as h %}
+{% from "_helpers.html" import alert, form_error, breadcrumbs %}
 {% set active_page = "notes.home" %}
 
 {% block title %}Edit Note{% endblock %}
 
 {% block content %}
 <div class="w-11/12 p-12 px-6 py-10 rounded-lg sm:w-8/12 md:w-6/12 lg:w-full 2xl:w-3/12 sm:px-10 sm:py-6">
-    {{ h.alert('mb-10') }}
+    {{ breadcrumbs('Notes', 'notes.home', 'Edit Note') }}
     <div class="flex">
         <div class="flex-auto">
             <h2 class="font-semibold text-2xl mb-4">Edit Note</h2>
@@ -16,13 +16,14 @@
         </div>
     </div>
 
+    {{ alert('mb-10') }}
     <form action="{{ url_for('notes.edit', note_id=note.id) }}" method="post" enctype="multipart/form-data">
 		{{ form.csrf_token }}
 		<div class="form-control">
 			{{ form.title.label(class="label") }}
 			{{ form.title(class="input input-bordered") }}
 		</div>
-		{{ h.form_error(form.title) }}
+		{{ form_error(form.title) }}
 
 		<div class="my-4 flex gap-4">
 			{% if preview_image %}
@@ -35,7 +36,7 @@
 					{{ form.featured_image.label(class="label") }}
 					{{ form.featured_image(class="file-input w-full max-w-xs no-animation") }}
 				</div>
-				{{ h.form_error(form.featured_image) }}
+				{{ form_error(form.featured_image) }}
 			</div>
 		</div>
 
@@ -43,7 +44,7 @@
 			{{ form.content.label(class="label") }}
             {{ form.content(class="textarea textarea-bordered textarea-lg w-full") }}
 		</div>
-		{{ h.form_error(form.content) }}
+		{{ form_error(form.content) }}
 
         <div class="form-control flex-row justify-start">
             <label class="label cursor-pointer">
@@ -51,7 +52,7 @@
                 {{ form.is_public(class="checkbox checkbox-lg") }}
             </label>
         </div>
-		{{ h.form_error(form.is_public) }}
+		{{ form_error(form.is_public) }}
 
 		<div class="form-control mt-6">
 			<button class="btn btn-primary no-animation">Update</button>
