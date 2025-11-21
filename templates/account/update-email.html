@@ -11,7 +11,7 @@
   {{ breadcrumbs('Account', 'account.home', 'Update Email') }}
 	<h2 class="font-semibold text-2xl mb-4">Update Email</h2>
 	<p class="font-medium mb-4">
-		Hi {{ profile.display_name or user.email }}, Enter your new email below and confirm it
+		Hi {{ profile.display_name or user.email }}, update your new email below and confirm it
 	</p>
 	
   {{ alert('mb-10') }}
@@ -30,7 +30,7 @@
 		{{ form_error(form.email_confirm) }}
 
 		<div class="form-control mt-6">
-			<button class="btn btn-primary no-animation">Update Email</button>
+			<button class="btn btn-primary normal-case no-animation">Update Email</button>
 		</div>
 	</form>
 </div>

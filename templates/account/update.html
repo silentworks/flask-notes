@@ -11,7 +11,7 @@
   {{ breadcrumbs('Account', 'account.home', 'Update Profile') }}
 	<h2 class="font-semibold text-2xl mb-4">{{ 'Update Profile' if profile.display_name else 'Please complete your profile' }}</h2>
 	<p class="font-medium mb-4">
-		Hi {{ profile.display_name or user.email }}, Enter your new email below and confirm it
+  Hi {{ profile.display_name or user.email }}, {{ 'update' if profile.display_name else 'enter' }} your profile information below
 	</p>
 	
   {{ alert('mb-10') }}
@@ -59,7 +59,7 @@
 		{{ form_error(form.profile_location) }}
 
 		<div class="form-control mt-6">
-			<button class="btn btn-primary no-animation">Update</button>
+			<button class="btn btn-primary normal-case no-animation">Update</button>
 		</div>
 	</form>
 </div>
