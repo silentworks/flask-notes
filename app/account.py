@@ -14,7 +14,6 @@ account.context_processor(user_context_processor)
 @account.route("/")
 @login_required
 @password_update_required
-@profile_required
 def home():
     profile = get_profile_by_user()
     return render_template("account/index.html", profile=profile)
@@ -143,6 +142,7 @@ def list_identities():
 
 @account.route("/connect/github")
 @login_required
+@profile_required
 def link_github():
     resp = supabase.auth.link_identity(
         {
@@ -156,6 +156,7 @@ def link_github():
 
 @account.route("/connect/<provider>/disconnect")
 @login_required
+@profile_required
 def unlink_provider(provider):
     try:
         res = supabase.auth.get_user_identities()

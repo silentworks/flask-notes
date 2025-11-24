@@ -1,6 +1,6 @@
 from functools import wraps
 from typing import Union
-from flask import redirect, session, url_for, request
+from flask import redirect, session, url_for, request, flash
 from supabase import AuthApiError, AuthRetryableError
 from supabase_auth.types import UserResponse
 from app.supabase import get_profile_by_user, supabase
@@ -31,6 +31,13 @@ def password_update_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         if "password_update_required" in session:
+            flash(
+                """
+                Almost there! Update your password first, and you’ll unlock the 
+                rest of the site right away.
+                """, 
+                "info"
+            )
             return redirect(url_for("account.update_password"))
 
         return f(*args, **kwargs)
@@ -54,6 +61,13 @@ def profile_required(f):
             incomplete_profile = True
 
         if incomplete_profile:
+            flash(
+                """
+                Almost there! Complete your profile first, and you’ll unlock the 
+                rest of the site right away.
+                """, 
+                "info"
+            )
             return redirect(url_for("account.update"))
 
         return f(*args, **kwargs)
