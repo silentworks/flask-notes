@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2.37.0"
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.84.0"
 import { corsHeaders } from "../_shared/cors.ts";
 
 console.log(`Function "user-self-deletion" up and running!`)
@@ -8,24 +8,26 @@ serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders })
   }
-  
+
   try {
+    const authHeader = req.headers.get('Authorization')!
     const supabaseClient = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_ANON_KEY') ?? '',
       // Create client with Auth context of the user that called the function.
       // This way your row-level-security (RLS) policies are applied.
-      { 
-        global: { 
-          headers: { Authorization: req.headers.get('Authorization')! } 
-        } 
+      {
+        global: {
+          headers: { Authorization: authHeader }
+        }
       }
     )
-    
+
     // Now we can get the session or user object
     const {
       data: { user },
     } = await supabaseClient.auth.getUser()
+
     // And we can run queries in the context of our authenticated user
     const { data: profile, error: userError } = await supabaseClient.from('profiles')
       .select('id')
@@ -35,17 +37,17 @@ serve(async (req) => {
     if (userError) {
       throw userError
     }
-    
+
     const user_id = profile.id
     const { data: list_of_files, error: storageError } = await supabaseClient
       .storage
       .from('featured_image')
       .list(user_id)
-    
+
     if (storageError) {
       throw storageError
     }
-    
+
     const file_urls = []
     for (let i = 0; i < list_of_files.length; i++) {
       file_urls.push(list_of_files[i].name)
@@ -64,7 +66,7 @@ serve(async (req) => {
         .storage
         .from('featured_image')
         .remove(file_urls.map(name => `${user_id}/${name}`))
-      
+
       if (fi_error) {
         throw fi_error
       }
@@ -73,7 +75,7 @@ serve(async (req) => {
     const { data: deletion_data, error: deletion_error } = await supabaseAdmin
       .auth.admin
       .deleteUser(user_id)
-    
+
     if (deletion_error) throw deletion_error
     console.log("User & files deleted user_id: " + user_id)
     return new Response("User deleted: " + JSON.stringify(deletion_data, null, 2), {
