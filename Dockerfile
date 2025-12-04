@@ -1,11 +1,13 @@
 # The builder image, used to build the virtual environment
-FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim AS builder
+FROM python:3.12-slim-trixie AS builder
 ENV UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy
 
 # Disable Python downloads, because we want to use the system interpreter
 # across both images. If using a managed Python version, it needs to be
 # copied from the build image into the final image.
 ENV UV_PYTHON_DOWNLOADS=0
+
+COPY --from=ghcr.io/astral-sh/uv:0.9.15 /uv /uvx /bin/
 
 WORKDIR /app
 RUN --mount=type=cache,target=/root/.cache/uv \
@@ -28,7 +30,7 @@ RUN pnpm -v
 RUN pnpm install --frozen-lockfile --prod --ignore-scripts --prefer-offline && pnpm build
 
 # The runtime image, used to just run the code provided its virtual environment
-FROM python:3.11-slim-buster as runtime
+FROM python:3.12-slim-trixie as runtime
 
 ENV VIRTUAL_ENV=/app/.venv \
     PATH="/app/.venv/bin:$PATH"
@@ -48,6 +50,6 @@ COPY templates /templates
 RUN ls -la ${VIRTUAL_ENV}
 
 EXPOSE 8000
-ENV PORT 8000
+ENV PORT=8000
 
 CMD ["gunicorn", "-w", "4", "app.__init__:app", "--bind", "0.0.0.0:8000"]
