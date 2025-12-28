@@ -4,3 +4,4 @@ supabase/.branches
 supabase/.temp
 node_modules/
 .env
+.idea/
