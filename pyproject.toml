@@ -1,6 +1,6 @@
 [project]
 name = "flask-notes"
-version = "0.2.0"
+version = "0.3.0"
 description = ""
 authors = [{ name = "Andrew Smith", email = "a.smith@silentworks.co.uk" }]
 requires-python = "~=3.12.0"
