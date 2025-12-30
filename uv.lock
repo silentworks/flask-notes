@@ -280,7 +280,7 @@ sdist = { url = "https://files.pythonhosted.org/packages/08/b0/8149a3c4341822038
 
 [[package]]
 name = "flask-notes"
-version = "0.2.0"
+version = "0.3.0"
 source = { editable = "." }
 dependencies = [
     { name = "email-validator" },
