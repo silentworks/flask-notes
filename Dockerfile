@@ -24,7 +24,8 @@ FROM node:alpine AS node-builder
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY templates/ ./templates
-COPY tailwind.css tailwind.config.js package.json pnpm-lock.yaml ./
+COPY src/ ./src
+COPY tailwind.css tailwind.config.js package.json pnpm-lock.yaml vite.config.js ./
 RUN npm install -g pnpm
 RUN pnpm -v
 RUN pnpm install --frozen-lockfile --ignore-scripts --prefer-offline && pnpm build
