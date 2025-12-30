@@ -27,7 +27,7 @@ COPY templates/ ./templates
 COPY tailwind.css tailwind.config.js package.json pnpm-lock.yaml ./
 RUN npm install -g pnpm
 RUN pnpm -v
-RUN pnpm install --frozen-lockfile --prod --ignore-scripts --prefer-offline && pnpm build
+RUN pnpm install --frozen-lockfile --ignore-scripts --prefer-offline && pnpm build
 
 # The runtime image, used to just run the code provided its virtual environment
 FROM python:3.12-slim-trixie as runtime
