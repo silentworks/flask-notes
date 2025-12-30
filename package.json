@@ -2,20 +2,30 @@
   "name": "flask-notes",
   "version": "0.2.0",
   "description": "",
+  "type": "module",
   "scripts": {
     "dev": "tailwindcss -w -i ./tailwind.css -o static/app.css",
-    "build": "tailwindcss -m -i ./tailwind.css -o static/app.css",
+    "dev:editor": "vite build --watch",
+    "build": "tailwindcss -m -i ./tailwind.css -o static/app.css && vite build",
+    "build:editor": "vite build",
     "s:start": "supabase start",
     "s:stop": "supabase stop",
     "s:version": "supabase --version",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "@codemirror/lang-markdown": "^6.2.4",
+    "@codemirror/language": "^6.10.0",
+    "@codemirror/state": "^6.4.0",
+    "@codemirror/view": "^6.23.0",
+    "@lezer/markdown": "^1.2.0",
     "@tailwindcss/typography": "^0.5.10",
+    "codemirror": "^6.0.1",
     "daisyui": "^3.7.3",
     "tailwindcss": "^3.3.3"
   },
   "devDependencies": {
-    "supabase": "2.67.1"
+    "supabase": "2.67.1",
+    "vite": "^5.0.0"
   }
 }

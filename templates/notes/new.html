@@ -20,13 +20,15 @@
 			<div class="col-span-6 sm:col-span-3">
 				<div class="form-control">
 					{{ form.title.label(class="label") }}
-					{{ form.title(class="input input-bordered") }}
+					{{ form.title(class="border-b border-gray-200 p-4") }}
 				</div>
 				{{ form_error(form.title) }}
 			</div>
       <div class="form-control">
         {{ form.content.label(class="label") }}
-        {{ form.content(class="textarea textarea-bordered textarea-lg min-h-96 w-full") }}
+        <div class="markdown-editor-wrapper">
+          {{ form.content(class="border-b border-gray-200 min-h-96 w-full") }}
+        </div>
       </div>
       {{ form_error(form.content) }}
 		</div>

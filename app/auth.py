@@ -12,7 +12,10 @@ supabase_key = os.environ.get("SUPABASE_KEY", "")
 
 @auth.route("/signin", methods=["GET", "POST"])
 def signin():
-    next = request.args.get("next")
+    next = request.args.get("next", "notes.home")
+    view_args = {
+        k: v for k, v in request.args.items() if k != "next"
+    }
     form = AuthForm()
     if form.validate_on_submit():
         email = form.email.data
@@ -24,11 +27,11 @@ def signin():
             )
 
             if user:
-                return redirect(url_for(next or "notes.home"))
+                return redirect(url_for(next, **view_args))
         except AuthApiError as message:
             flash(message, "error")
 
-    return render_template("auth/signin.html", form=form, next=next)
+    return render_template("auth/signin.html", form=form, next=next, view_args=view_args)
 
 
 @auth.route("/signin/github")

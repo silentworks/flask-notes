@@ -27,7 +27,7 @@
       Continue with GitHub
     </a>
     <div class="divider text-gray-400 text-sm">or continue with Email</div>
-    <form action="{{ url_for('auth.signin', next=next) }}" method="post">
+    <form action="{{ url_for('auth.signin', next=next, **view_args) }}" method="post">
       {% include 'auth/_form_partial.html' %}
       
       <div class="form-control flex-row justify-end pt-4">
