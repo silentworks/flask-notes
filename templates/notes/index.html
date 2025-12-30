@@ -21,11 +21,11 @@
     {{ alert('mb-10') }}
     <ul class="bg-white overflow-hidden sm:rounded-md mx-auto space-y-4">
         {% for note in notes %}
-        <li class="border border-gray-200 rounded">
+        <li class="border-b border-gray-200 rounded">
           <div class="flex gap-2 items-center justify-between">
             <a href="{{ url_for('notes.edit', note_id=note.id) }}" class="grow font-medium text-gray-600 hover:text-gray-500 px-4 py-3 sm:px-6">
               <h3 class="text-base leading-6 font-semibold">{{ note.title }}</h3>
-              <p class="mt-0 max-w-2xl text-xs text-gray-500">{{ note.content | truncate(60) }}</p>
+              <p class="mt-0 max-w-2xl text-xs text-gray-500">{{ note.content | truncate(60) | markdown }}</p>
             </a>
             <div class="flex items-center justify-between">
               {% if not note.is_public %}

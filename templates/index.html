@@ -29,7 +29,7 @@
                 </svg>                      
               </a>
             </h3>
-            <p class="mt-2 max-w-2xl text-sm text-gray-500">{{ note.content | truncate(190) }}</p>
+            <p class="mt-2 max-w-2xl text-sm text-gray-500">{{ note.content | truncate(190) | markdown }}</p>
           </div>
         </div>
       </li>

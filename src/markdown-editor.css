@@ -1,0 +1,47 @@
+/* CodeMirror 6 Editor Container */
+.codemirror6-editor-container {
+  min-height: 384px;
+  /* border: 1px solid #d1d5db; */
+  /* border-radius: 0.5rem; */
+  overflow: hidden;
+  background: white;
+}
+
+/* Base editor styling */
+.cm-editor {
+  min-height: 384px;
+  height: auto;
+}
+
+.cm-scroller {
+  min-height: 384px;
+}
+
+/* Focus state */
+.cm-editor.cm-focused {
+  outline: 2px solid #3b82f6;
+  outline-offset: -2px;
+}
+
+/* Selection */
+.cm-selectionBackground {
+  background-color: #dbeafe !important;
+}
+
+/* Cursor */
+.cm-cursor {
+  border-left-color: #1f2937;
+  border-left-width: 2px;
+}
+
+/* Line numbers */
+.cm-lineNumbers {
+  color: #9ca3af;
+  padding-right: 0.5rem;
+}
+
+/* Gutters */
+.cm-gutters {
+  background-color: #f9fafb;
+  border-right: 1px solid #e5e7eb;
+}

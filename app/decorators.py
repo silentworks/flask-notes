@@ -20,7 +20,7 @@ def login_required(f):
             return redirect(url_for("service_unavailable"))
 
         if user is None:
-            return redirect(url_for("auth.signin", next=request.endpoint))
+            return redirect(url_for("auth.signin", next=request.endpoint, **request.view_args))
 
         return f(*args, **kwargs)
 
