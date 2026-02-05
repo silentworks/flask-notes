@@ -100,16 +100,21 @@ def edit(note_id):
         #     options={"transform": {"width": 200}},
         # )
 
-        # Alternatively we can use Pillow to handle our image transform but
-        # the burden will be on our own server rather than Supabase's and we
-        # have to write a lot more code to accomplish the transform, you may
-        # also want to cache this as this action will be performed everytime
-        # you load an image. Pillow transform code can be found in the
-        # resize_image function below
-        r = supabase.storage.from_("featured_image").get_public_url(
-            note["featured_image"]
-        )
-        preview_image = resize_image(r, 200, 200)
+        try:
+            # Alternatively we can use Pillow to handle our image transform but
+            # the burden will be on our own server rather than Supabase's and we
+            # have to write a lot more code to accomplish the transform, you may
+            # also want to cache this as this action will be performed everytime
+            # you load an image. Pillow transform code can be found in the
+            # resize_image function below
+            r = supabase.storage.from_("featured_image").get_public_url(
+                note["featured_image"]
+            )
+            preview_image = resize_image(r, 200, 200)
+        except:
+            # We should log that the image isn't loading along with the error 
+            # message but for this demo we will just skip this
+            pass
 
     if form.validate_on_submit():
         title = form.title.data
@@ -148,7 +153,7 @@ def edit(note_id):
             )
 
             if res:
-                flash("Your new note was added successfully.", "info")
+                flash("Your note was updated successfully.", "info")
                 return redirect(url_for("notes.home"))
             else:
                 flash(

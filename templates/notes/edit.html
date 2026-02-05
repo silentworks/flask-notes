@@ -5,13 +5,13 @@
 {% block title %}Edit Note{% endblock %}
 
 {% block content %}
-<div class="w-11/12 p-12 px-6 py-10 rounded-lg sm:w-8/12 md:w-6/12 lg:w-full 2xl:w-3/12 sm:px-10 sm:py-6">
+<div class="w-11/12 p-12 px-6 py-10 rounded-lg lg:w-full 2xl:w-8/12 sm:px-9 sm:py-6">
   {{ breadcrumbs('Notes', 'notes.home', 'Edit Note') }}
-  <div class="flex">
-      <div class="flex-auto">
-          <h2 class="font-semibold text-2xl mb-4">Edit Note</h2>
-      </div>
-  </div>
+  <!-- <div class="flex"> -->
+  <!--     <div class="flex-auto"> -->
+  <!--         <h2 class="font-semibold text-2xl mb-4">Edit Note</h2> -->
+  <!--     </div> -->
+  <!-- </div> -->
 
   {{ alert('mb-10') }}
   <form class="flex flex-row gap-2" action="{{ url_for('notes.edit', note_id=note.id) }}" method="post" enctype="multipart/form-data">
@@ -20,7 +20,7 @@
 			<div class="col-span-6 sm:col-span-3">
 				<div class="form-control">
 					{{ form.title.label(class="label") }}
-					{{ form.title(class="border-b border-gray-200 p-4") }}
+					{{ form.title(class="border-b border-gray-200 text-xl font-semibold p-4") }}
 				</div>
 				{{ form_error(form.title) }}
 			</div>
